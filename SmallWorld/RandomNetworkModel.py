@@ -52,6 +52,27 @@ G_ROI = nx.read_adjlist('DataSmallWorld/Oxford_sub16112_aal90_d5.adjlist')
 # Brain (Voxel)
 G_Voxel = nx.read_adjlist('DataSmallWorld/Oxford_sub16112_voxel_d20.adjlist')
 
+
+##### C. Elegan network degee sequence before re-wiring
+degree_CEleg = [d for n, d in G_CEleg.degree()]
+degree_CEleg.sort()
+plt.plot(degree_CEleg,'b-')
+plt.ylabel('Node degree')
+plt.title('Degree sequence (original network)\nsmallest to largest')
+plt.show()
+
+##### Rewiring C. Elegans network
+H_CEleg = rewire_multi(G_CEleg,10*len(G_CEleg.nodes()))
+
+##### C. Elegan network degee sequence after re-wiring
+degree_CEleg_rewire = [d for n, d in H_CEleg.degree()]
+degree_CEleg_rewire.sort()
+plt.plot(degree_CEleg_rewire,'g-')
+plt.ylabel('Node degree')
+plt.title('Degree sequence (rewired network)\nsmallest to largest')
+plt.show()
+
+
 ##### Just the giant component only for brain (ROI)
 GC_nodes_ROI = max(nx.connected_components(G_ROI), key=len)  # nodes in giant component
 GC_ROI = G_ROI.subgraph(GC_nodes_ROI).copy()  # nodes & edges in giant component
