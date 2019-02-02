@@ -19,20 +19,21 @@ def pick_4nodes(G):
 
 
 def rewire_once(G):
+    H = G.copy()
     list4nodes = pick_4nodes(G)
-    G.remove_edge(list4nodes[0],list4nodes[1])
-    G.remove_edge(list4nodes[2],list4nodes[3])
-    G.add_edge(list4nodes[0],list4nodes[2])
-    G.add_edge(list4nodes[1],list4nodes[3])
-    return G
+    H.remove_edge(list4nodes[0],list4nodes[1])
+    H.remove_edge(list4nodes[2],list4nodes[3])
+    H.add_edge(list4nodes[0],list4nodes[2])
+    H.add_edge(list4nodes[1],list4nodes[3])
+    return H
 
 def rewire_multi(G,nIter):
     for i in range(nIter):
         #if i % 100 ==0:
         #    print('*',end='')
-        G = rewire_once(G)
+        H = rewire_once(G)
     print()
-    return G
+    return H
 
 
 def path_length_gc(G):
@@ -71,6 +72,12 @@ plt.plot(degree_CEleg_rewire,'g-')
 plt.ylabel('Node degree')
 plt.title('Degree sequence (rewired network)\nsmallest to largest')
 plt.show()
+
+
+##### Clustering coeff, before and after rewiring
+print('Clustering, before: %6.4f' % nx.average_clustering(G_CEleg))
+print('Clustering, after: %6.4f' % nx.average_clustering(H_CEleg))
+
 
 
 ##### Just the giant component only for brain (ROI)
