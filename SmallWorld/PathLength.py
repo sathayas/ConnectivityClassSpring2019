@@ -38,6 +38,3 @@ GC_nodes_ROI = max(nx.connected_components(G_ROI), key=len)  # nodes in giant co
 GC_ROI = G_ROI.subgraph(GC_nodes_ROI)  # nodes & edges in giant component
 print('Path length, brain (ROI): %4.2f'  % nx.average_shortest_path_length(GC_ROI))
 
-GC_nodes_Voxel = max(nx.connected_components(G_Voxel), key=len) 
-GC_Voxel = G_Voxel.subgraph(GC_nodes_Voxel)  # nodes & edges in giant component
-print('Path length, brain (Voxel): %4.2f'  % nx.average_shortest_path_length(GC_Voxel))
