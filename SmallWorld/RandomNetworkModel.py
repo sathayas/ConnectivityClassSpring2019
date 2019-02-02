@@ -15,12 +15,6 @@ def pick_4nodes(G):
         if len(dPool)>0:
             d = random.choice(list(dPool))
             break
-    #print(G.has_edge(a,b))
-    #print(G.has_edge(a,c))
-    #print(G.has_edge(a,d))
-    #print(G.has_edge(c,d))
-    #print(G.has_edge(c,a))
-    #print(G.has_edge(c,b))
     return [a,b,c,d]
 
 
@@ -40,8 +34,9 @@ def rewire_multi(G,nIter):
     print()
     return G
 
+
 def path_length_gc(G):
-    GC_nodes = max(nx.connected_components(G), key=len)  # nodes in giant component
+    GC_nodes = max(nx.connected_components(G), key=len)  # giant component nodes
     GC = G.subgraph(GC_nodes)
     L = nx.average_shortest_path_length(GC)
     return L
