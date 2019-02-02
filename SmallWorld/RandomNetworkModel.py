@@ -18,23 +18,15 @@ def pick_4nodes(G):
     return [a,b,c,d]
 
 
-def rewire_once(G):
-    H = G.copy()
-    list4nodes = pick_4nodes(G)
-    H.remove_edge(list4nodes[0],list4nodes[1])
-    H.remove_edge(list4nodes[2],list4nodes[3])
-    H.add_edge(list4nodes[0],list4nodes[2])
-    H.add_edge(list4nodes[1],list4nodes[3])
-    return H
-
 def rewire_multi(G,nIter):
+    H = G.copy()
     for i in range(nIter):
-        #if i % 100 ==0:
-        #    print('*',end='')
-        H = rewire_once(G)
-    print()
+        list4nodes = pick_4nodes(H)
+        H.remove_edge(list4nodes[0],list4nodes[1])
+        H.remove_edge(list4nodes[2],list4nodes[3])
+        H.add_edge(list4nodes[0],list4nodes[2])
+        H.add_edge(list4nodes[1],list4nodes[3])
     return H
-
 
 def path_length_gc(G):
     GC_nodes = max(nx.connected_components(G), key=len)  # giant component nodes
