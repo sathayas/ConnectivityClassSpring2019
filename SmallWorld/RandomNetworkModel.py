@@ -28,6 +28,7 @@ def rewire_multi(G,nIter):
         H.add_edge(list4nodes[1],list4nodes[3])
     return H
 
+
 def path_length_gc(G):
     GC_nodes = max(nx.connected_components(G), key=len)  # giant component nodes
     GC = G.subgraph(GC_nodes)
@@ -70,29 +71,9 @@ plt.show()
 print('Clustering, before: %6.4f' % nx.average_clustering(G_CEleg))
 print('Clustering, after: %6.4f' % nx.average_clustering(H_CEleg))
 
+##### Path length, before and after rewiring
+print('Path length, before: %4.2f' % path_length_gc(G_CEleg))
+print('Path length, after: %4.2f' % path_length_gc(H_CEleg))
 
 
-##### Just the giant component only for brain (ROI)
-GC_nodes_ROI = max(nx.connected_components(G_ROI), key=len)  # nodes in giant component
-GC_ROI = G_ROI.subgraph(GC_nodes_ROI).copy()  # nodes & edges in giant component
-
-
-##### rewiring
-H_CEleg = rewire_multi(G_CEleg,10*len(G_CEleg.nodes()))
-H_Power = rewire_multi(G_Power,10*len(G_Power.nodes()))
-H_ROI = rewire_multi(GC_ROI,10*len(GC_ROI.nodes()))
-
-##### Clustering
-print('Clustering coefficients')
-print('C. Elegans: %6.4f' % nx.average_clustering(H_CEleg))
-print('Power grid: %6.4f' % nx.average_clustering(H_Power))
-print('Brain (ROI): %6.4f' % nx.average_clustering(H_ROI))
-print()
-
-##### Path length
-print('Path length')
-print('C. Elegans: %4.2f' % path_length_gc(H_CEleg))
-print('Power grid: %4.2f' % path_length_gc(H_Power))
-print('Brain (ROI): %4.2f' % path_length_gc(H_ROI))
-print()
 
