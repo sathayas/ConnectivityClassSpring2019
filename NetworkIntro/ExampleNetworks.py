@@ -57,17 +57,20 @@ plt.show()
 G = nx.read_adjlist('IntroNetworkData/Oxford_sub16112_aal90_K20.adjlist', 
                     nodetype=int)
 # loading the label for different brain areas
-AALTable = pd.read_table('IntroNetworkData/aal_MNI_V4.txt', skiprows = [0], header=None)
-# dictionary of node names
+AALTable = pd.read_csv('IntroNetworkData/aal_MNI_V4_coord.csv')
+# dictionary of node names and xy-coordinates
 roiNames = {}
+pos = {}
 for i in range(1,91):
     roiNames[i] = AALTable.iloc[i-1,1]
+    pos[AALTable.iloc[i-1,1]] = np.array(AALTable.loc[i-1,
+                                                      ['centerX',
+                                                       'centerY']])
 # renaming nodes
 H = nx.relabel_nodes(G, roiNames)
 
 # drawing the graph  --- random
 plt.figure(figsize=[10,10])
-pos = nx.kamada_kawai_layout(H, weight=None) # positions for all nodes
 nx.draw_networkx_nodes(H, pos, node_size=30, node_color='lime')
 nx.draw_networkx_edges(H, pos, edge_color='palegreen')
 nx.draw_networkx_labels(H, pos, font_size=10, font_color='DarkRed')
