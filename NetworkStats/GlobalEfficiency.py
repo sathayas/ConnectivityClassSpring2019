@@ -13,7 +13,7 @@ G_ROI = nx.read_adjlist('DataNetStats/Oxford_sub16112_aal90_d5.adjlist')
 G_Voxel = nx.read_adjlist('DataNetStats/Oxford_sub16112_voxel_d20.adjlist')
 
 ##### Global efficiencies
-print('Global eddiciencies')
+print('Global efficiencies')
 print('C. Elegans: %5.3f' % nx.global_efficiency(G_CEleg))
 print('Power grid: %5.3f' % nx.global_efficiency(G_Power))
 print('Brain (ROI): %5.3f' % nx.global_efficiency(G_ROI))
@@ -80,7 +80,7 @@ def eglob_net(G):
 
 
 ##### Global efficiencies, redux
-print('Global eddiciencies')
+print('Global efficiencies')
 print('C. Elegans: %5.3f' % eglob_net(G_CEleg)[0])
 print('Power grid: %5.3f' % eglob_net(G_Power)[0])
 print('Brain (ROI): %5.3f' % eglob_net(G_ROI)[0])
