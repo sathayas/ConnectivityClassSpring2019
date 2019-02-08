@@ -78,6 +78,18 @@ def eglob_net(G):
         Eglobi = []
     return Eglob, Eglobi, Nodes
 
+def sort_nodestat(NodeList, Stats):
+    '''
+    A function to sort node stats by ROI number
+    
+    This is a function used internally.
+    '''
+    iNode = [int(i) for i in NodeList]
+    zipstat = zip(iNode, Stats)
+    zipsstat = sorted(zipstat, key = lambda t: t[0])
+    sNodeList, sStats = zip(*zipsstat)
+    return sNodeList, sStats
+
 
 ##### Global efficiencies, redux
 print('Global efficiencies')
