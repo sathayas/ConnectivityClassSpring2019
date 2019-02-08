@@ -101,3 +101,20 @@ plt.xscale('log')
 plt.yscale('log')
 
 plt.show()
+
+
+
+###### Cumulative distribution plots together
+plt.plot(sk_CEleg, np.arange(1,len(sk_CEleg)+1)/len(sk_CEleg), 
+         label='C Elegan')
+plt.plot(sk_Power, np.arange(1,len(sk_Power)+1)/len(sk_Power), 
+         label='Power grid')
+plt.plot(sk_ROI, np.arange(1,len(sk_ROI)+1)/len(sk_ROI), 
+         label='Brain (ROI)')
+plt.plot(sk_Voxel, np.arange(1,len(sk_Voxel)+1)/len(sk_Voxel), 
+         label='Brain (voxel)')
+plt.title('Degree distributions')
+plt.xscale('log')
+plt.yscale('log')
+plt.legend()
+plt.show()
