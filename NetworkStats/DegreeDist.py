@@ -11,3 +11,42 @@ G_Power = nx.read_gml('DataNetStats/power.gml', label='id')
 G_ROI = nx.read_adjlist('DataNetStats/Oxford_sub16112_aal90_d5.adjlist')
 # Brain (Voxel)
 G_Voxel = nx.read_adjlist('DataNetStats/Oxford_sub16112_voxel_d20.adjlist')
+
+
+##### Degree sequence
+k_CEleg = [d for n, d in G_CEleg.degree()]
+k_Power = [d for n, d in G_Power.degree()]
+k_ROI = [d for n, d in G_ROI.degree()]
+k_Voxel = [d for n, d in G_Voxel.degree()]
+
+
+##### Degree histogram
+plt.figure(figsize=[9,9])
+
+plt.subplot(221)
+plt.hist(k_CEleg,50)
+plt.title('Degree histogram, C Elegan')
+
+plt.subplot(222)
+plt.hist(k_Power,20)
+plt.title('Degree histogram, power grid')
+
+plt.subplot(223)
+plt.hist(k_ROI,10)
+plt.title('Degree histogram, brain (ROI)')
+
+plt.subplot(224)
+plt.hist(k_Voxel,100)
+plt.title('Degree histogram, brain (Voxel)')
+
+plt.show()
+
+
+##### Re-plotting the degree distribution (C Elegan)
+# getting counts for each bin
+[n_CEleg, bin_CEleg] = np.histogram(k_CEleg,50)
+
+# plotting the counts
+plt.plot(bin_CEleg, n_CEleg)
+plt.title('Degree histogram, CElegan')
+plt.show()
