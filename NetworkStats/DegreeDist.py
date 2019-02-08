@@ -44,9 +44,60 @@ plt.show()
 
 ##### Re-plotting the degree distribution (C Elegan)
 # getting counts for each bin
-[n_CEleg, bin_CEleg] = np.histogram(k_CEleg,50)
+[n_CEleg, bin_CEleg] = np.histogram(k_CEleg,100)
 
 # plotting the counts
-plt.plot(bin_CEleg, n_CEleg)
-plt.title('Degree histogram, CElegan')
+plt.plot(bin_CEleg[:-1], n_CEleg)
+plt.title('Degree histogram, C Elegan')
+plt.show()
+
+# log-log scale
+plt.plot(bin_CEleg[:-1], n_CEleg)
+plt.title('Log-log scale, C Elegan')
+plt.xscale('log')
+plt.yscale('log')
+plt.show()
+
+# plotting the degree sequence vs rank
+sk_CEleg = sorted(k_CEleg, reverse=True) # sorting in descending
+plt.plot(sk_CEleg, np.arange(1,len(sk_CEleg)+1))
+plt.title('Degree vs rank, C Elegan')
+plt.xscale('log')
+plt.yscale('log')
+plt.show()
+
+
+
+###### Cumulative distribution plots
+sk_CEleg = sorted(k_CEleg, reverse=True) 
+sk_Power = sorted(k_Power, reverse=True) 
+sk_ROI = sorted(k_ROI, reverse=True) 
+sk_Voxel = sorted(k_Voxel, reverse=True) 
+
+plt.figure(figsize=[9,9])
+
+plt.subplot(221)
+plt.plot(sk_CEleg, np.arange(1,len(sk_CEleg)+1))
+plt.title('Degree distribution, C Elegan')
+plt.xscale('log')
+plt.yscale('log')
+
+plt.subplot(222)
+plt.plot(sk_Power, np.arange(1,len(sk_Power)+1))
+plt.title('Degree distribution, power grid')
+plt.xscale('log')
+plt.yscale('log')
+
+plt.subplot(223)
+plt.plot(sk_ROI, np.arange(1,len(sk_ROI)+1))
+plt.title('Degree distribution, brain (ROI)')
+plt.xscale('log')
+plt.yscale('log')
+
+plt.subplot(224)
+plt.plot(sk_Voxel, np.arange(1,len(sk_Voxel)+1))
+plt.title('Degree distribution, brain (Voxel)')
+plt.xscale('log')
+plt.yscale('log')
+
 plt.show()
