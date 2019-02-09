@@ -56,4 +56,5 @@ plt.title('Mixing matrix, brain (voxel)')
 plt.xlabel('Terminus degree')
 plt.ylabel('Origin degree')
 
+plt.subplots_adjust(wspace=0.3, hspace=0.3)
 plt.show()
