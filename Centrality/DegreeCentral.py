@@ -69,7 +69,7 @@ pos = nx.kamada_kawai_layout(G_Flo, weight=None) # positions for all nodes
 nx.draw_networkx_nodes(G_Flo, pos, 
                        cmap=plt.cm.coolwarm, node_color=list(Cdeg_Flo_k))
 nx.draw_networkx_edges(G_Flo, pos, edge_color='lightblue')
-nx.draw_networkx_labels(G_Flo, pos, font_size=10, font_color='darkorange')
+nx.draw_networkx_labels(G_Flo, pos, font_size=10, font_color='black')
 plt.axis('off')
 plt.title('Florentine family network\nand degree centrality')
 vmin = sCdeg_Flo_k[-1]
@@ -93,6 +93,8 @@ for i in range(1,91):
                                                       ['centerX',
                                                        'centerY']])
 
+
+# Actual drawing
 plt.figure(figsize=[9,9])
 nx.draw_networkx_nodes(G_Berlin, pos, 
                        cmap=plt.cm.coolwarm, node_color=list(Cdeg_Berlin_k))
