@@ -1,7 +1,6 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import random
 
 ##### network rewiring functions -- used to generate random network models
@@ -32,48 +31,47 @@ def rewire_multi(G,nIter):
 
 
 
-##### loading the network data
-# C Elegan neural network
-G_CEleg = nx.read_adjlist('DataRichClub/CElegans.adjlist')
-# Centrality literature network
-H_Lit = nx.Graph(nx.read_pajek('DataRichClub/centrality_literature.paj'))
-GCnodes_Lit = max(nx.connected_components(H_Lit), key=len)  # giant component nodes
-G_Lit = G_Lit.subgraph(GCnodes_Lit)   # giant component network
-# Power grid
-G_Power = nx.read_gml('DataRichClub/power.gml', label='id')
-# Brain (Berlin)
-G_Berlin = nx.read_adjlist('DataRichClub/Berlin_sub91116_aal90_d10_annotated.adjlist')
-# Brain (Leiden)
-G_Leiden = nx.read_adjlist('DataRichClub/Leiden_sub30943_aal90_d10_annotated.adjlist')
-# Brain (New York)
-G_NY = nx.read_adjlist('DataRichClub/NewYork_sub78118_aal90_d10_annotated.adjlist')
-# Brain (Oxford)
-G_Oxford = nx.read_adjlist('DataRichClub/Oxford_sub16112_aal90_d10_annotated.adjlist')
-# Brain (Queensland)
-G_Queen = nx.read_adjlist('DataRichClub/Queensland_sub42533_aal90_d10_annotated.adjlist')
+##### loading the network data, network science co-authorship network
+H_Net = nx.read_gml('DataRichClub/netscience.gml')
+# extracting giant component nodes
+GCnodes_Net = max(nx.connected_components(H_Net), key=len)  
+# giant component as a network
+G_Net = H_Net.subgraph(GCnodes_Net)   
+
 
 
 
 ##### Rich club coefficient (original network)
-RC_dict_Berlin = nx.rich_club_coefficient(G_Berlin, normalized=False)
+RCdict_Net = nx.rich_club_coefficient(G_Net, normalized=False)
 
-K_Berlin = [k for k, rc in RC_dict_Berlin.items()]
-RC_Berlin = [rc for k, rc in RC_dict_Berlin.items()]
-plt.plot(K_Berlin, RC_Berlin)
-plt.show()
+# extracting the degree and rich club coeff from the dictionary
+K_Net = [k for k, rc in RCdict_Net.items()]
+RC_Net = [rc for k, rc in RCdict_Net.items()]
 
 
 
 ##### Rich club coefficient (random network)
-Grand_Berlin = rewire_multi(G_Berlin, 10*len(G_Berlin.nodes()))
+# first generating a random network
+Grand_Net = rewire_multi(G_Net, 10*len(G_Net.nodes()))
 
-RCrand_dict_Berlin = nx.rich_club_coefficient(Grand_Berlin, normalized=False)
+# rich club coefficient of the random network
+RCrandDict_Net = nx.rich_club_coefficient(Grand_Net, normalized=False)
 
-Krand_Berlin = [k for k, rc in RCrand_dict_Berlin.items()]
-RCrand_Berlin = [rc for k, rc in RCrand_dict_Berlin.items()]
-plt.plot(Krand_Berlin, RCrand_Berlin)
+# extracting the degree and rich club coeff from the dictionary
+Krand_Net = [k for k, rc in RCrandDict_Net.items()]
+RCrand_Net = [rc for k, rc in RCrandDict_Net.items()]
+
+
+
+##### Rich club coefficient (original vs random)
+RC = np.array(RC_Net) / np.array(RCrand_Net)
+
+
+##### Finally plotting the rich club coefficients
+plt.plot(K_Net,RC_Net,'bo-', label='Original network')
+plt.plot(Krand_Net,RCrand_Net,'mo-', label='Random network')
+plt.plot(K_Net,RC,'ro-', label='Normalized RC')
+plt.xlabel('Degree')
+plt.ylabel('Rich club coefficient')
 plt.show()
 
-
-##### Rich club coefficient (original vs random
-RC = np.array(RC_Berlin) / np.array(RCrand_Berlin)
