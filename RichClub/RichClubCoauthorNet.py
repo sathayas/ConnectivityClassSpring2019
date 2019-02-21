@@ -32,45 +32,54 @@ def rewire_multi(G,nIter):
 
 
 ##### loading the network data, network science co-authorship network
-H_Net = nx.read_gml('DataRichClub/netscience.gml')
+H = nx.read_gml('DataRichClub/netscience.gml')
 # extracting giant component nodes
-GCnodes_Net = max(nx.connected_components(H_Net), key=len)  
+GCnodes = max(nx.connected_components(H), key=len)  
 # giant component as a network
-G_Net = H_Net.subgraph(GCnodes_Net)   
+G = H.subgraph(GCnodes)   
 
 
 
 
 ##### Rich club coefficient (original network)
-RCdict_Net = nx.rich_club_coefficient(G_Net, normalized=False)
+RCdict = nx.rich_club_coefficient(G, normalized=False)
 
 # extracting the degree and rich club coeff from the dictionary
-K_Net = [k for k, rc in RCdict_Net.items()]
-RC_Net = [rc for k, rc in RCdict_Net.items()]
+K = [k for k, rc in RCdict.items()]
+RCorig = [rc for k, rc in RCdict.items()]
 
 
 
 ##### Rich club coefficient (random network)
-# first generating a random network
-Grand_Net = rewire_multi(G_Net, 10*len(G_Net.nodes()))
+RCrand = np.zeros_like(RCorig)
+nIter = 50 # number of random networks to be generated
+print('Generating random networks ',end='')
+for iIter in range(nIter):
+    print('.',end='')
+    # first generating a random network
+    Grand = rewire_multi(G, 10*len(G.nodes()))
 
-# rich club coefficient of the random network
-RCrandDict_Net = nx.rich_club_coefficient(Grand_Net, normalized=False)
+    # rich club coefficient of the random network
+    RCrandDict = nx.rich_club_coefficient(Grand, normalized=False)
 
-# extracting the degree and rich club coeff from the dictionary
-Krand_Net = [k for k, rc in RCrandDict_Net.items()]
-RCrand_Net = [rc for k, rc in RCrandDict_Net.items()]
+    # extracting rich club coeff from the dictionary
+    tmpRC = np.array([rc for k, rc in RCrandDict.items()])
+    RCrand += tmpRC
+
+print('done!')
+# dividing RC by the number of iterations to get the average
+RCrand /= nIter
 
 
 
 ##### Rich club coefficient (original vs random)
-RC = np.array(RC_Net) / np.array(RCrand_Net)
+RCnorm = np.array(RCorig) / RCrand
 
 
 ##### Finally plotting the rich club coefficients
-plt.plot(K_Net,RC_Net,'bo-', label='Original network')
-plt.plot(Krand_Net,RCrand_Net,'mo-', label='Random network')
-plt.plot(K_Net,RC,'ro-', label='Normalized RC')
+plt.plot(K,RCorig,'bo-', label='Original network')
+plt.plot(K,RCrand,'mo-', label='Random network')
+plt.plot(K,RCnorm,'ro-', label='Normalized RC')
 plt.xlabel('Degree')
 plt.ylabel('Rich club coefficient')
 plt.show()
