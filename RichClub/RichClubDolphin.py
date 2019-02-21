@@ -52,10 +52,13 @@ RCorig = [rc for k, rc in RCdict.items()]
 
 ##### Rich club coefficient (random network)
 RCrand = np.zeros_like(RCorig)
-nIter = 100 # number of random networks to be generated
+nIter = 200 # number of random networks to be generated
 print('Generating random networks ')
 for iIter in range(nIter):
     print('.',end='')
+    if (iIter+1)%20 == 0:
+        print()
+
     # first generating a random network
     Grand = rewire_multi(G, 10*len(G.nodes()))
 
