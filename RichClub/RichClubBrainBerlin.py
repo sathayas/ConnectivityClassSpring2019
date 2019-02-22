@@ -2,6 +2,7 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import pandas as pd
 
 ##### network rewiring functions -- used to generate random network models
 def pick_4nodes(G):
@@ -32,21 +33,30 @@ def rewire_multi(G,nIter):
 
 
 ##### loading the network data
-H = nx.read_gml('DataRichClub/dolphins.gml')
+H = nx.read_adjlist('DataRichClub/Berlin_sub91116_aal90_d10_annotated.adjlist')
 # extracting giant component nodes
 GCnodes = max(nx.connected_components(H), key=len)  
 # giant component as a network
 G = H.subgraph(GCnodes)   
 
 
-###### drawing the graph --- Kamada-Kawai layout
+###### drawing the graph --- in the brain space
+# loading the coordinates info for brain areas
+AALTable = pd.read_csv('DataRichClub/aal_MNI_V4_coord.csv')
+# dictionary of xy-coordinates
+pos = {}
+for i in range(1,91):
+    pos[AALTable.iloc[i-1,1]] = np.array(AALTable.loc[i-1,
+                                                      ['centerX',
+                                                       'centerY']])
+
+# Actual drawing
 plt.figure(figsize=[9,9])
-pos = nx.kamada_kawai_layout(G, weight=None) # positions for all nodes
 nx.draw_networkx_nodes(G, pos, node_color='salmon', node_size=200)
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 nx.draw_networkx_labels(G, pos, font_size=7, font_color='black')
 plt.axis('off')
-plt.title('Dolphin social network')
+plt.title('Brain network (Berlin)')
 plt.show()
 
 
