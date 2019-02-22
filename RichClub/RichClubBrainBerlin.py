@@ -34,7 +34,7 @@ def rewire_multi(G,nIter):
 
 
 ##### loading the network data
-H = nx.read_adjlist('DataRichClub/Berlin_sub91116_aal90_d10_annotated.adjlist')
+H = nx.read_adjlist('DataRichClub/Berlin_sub91116_aal90_d5_annotated.adjlist')
 # extracting giant component nodes
 GCnodes = max(nx.connected_components(H), key=len)  
 # giant component as a network
