@@ -110,7 +110,6 @@ G_RC = G.subgraph(nodes_RC)
 ###### drawing the graph (rich club only) --- Kamada-Kawai layout
 plt.figure(figsize=[9,9])
 
-pos = nx.kamada_kawai_layout(G, weight=None) # positions for all nodes
 nx.draw_networkx_nodes(G, pos, node_color='salmon', node_size=200)
 nx.draw_networkx_nodes(G_RC, pos, node_color='deeppink')
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
