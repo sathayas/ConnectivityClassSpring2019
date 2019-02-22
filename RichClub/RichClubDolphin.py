@@ -100,21 +100,27 @@ plt.show()
 
 ##### Extracting the rich club network
 RCthresh = 1.10  # if RCnorm is greater than this, rich club for sure
-K_RC_min = K[np.min(np.where(RCnorm>RCthresh))]
-K_RC_max = K[np.max(np.where(RCnorm>RCthresh))]
+K_RC_min = K[np.min(np.where(RCnorm>RCthresh))]  # min degree for rich club
+K_RC_max = K[np.max(np.where(RCnorm>RCthresh))]  # max degree for rich club
+# extracting the nodes whose degree within the range of the rich club
 nodes_RC = [node for node, degree in dict(G.degree()).items() 
             if K_RC_min<=degree<=K_RC_max]
 G_RC = G.subgraph(nodes_RC)
+# removing unconnected nodes
+node_K0 = [node for node, degree in dict(G_RC.degree()).items()
+           if degree==0]
+H_RC = G_RC.copy()
+H_RC.remove_nodes_from(node_K0)
 
 
 ###### drawing the graph (rich club only) --- Kamada-Kawai layout
 plt.figure(figsize=[9,9])
 
 nx.draw_networkx_nodes(G, pos, node_color='salmon', node_size=200)
-nx.draw_networkx_nodes(G_RC, pos, node_color='deeppink')
+nx.draw_networkx_nodes(H_RC, pos, node_color='deeppink')
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
-nx.draw_networkx_edges(G_RC, pos, width=2.0, edge_color='darkblue')
-nx.draw_networkx_labels(G_RC, pos, font_size=10, font_color='black')
+nx.draw_networkx_edges(H_RC, pos, width=2.0, edge_color='darkblue')
+nx.draw_networkx_labels(H_RC, pos, font_size=10, font_color='black')
 plt.axis('off')
 plt.title('Dolphin social network\nRich club nodes and edges')
 plt.show()
