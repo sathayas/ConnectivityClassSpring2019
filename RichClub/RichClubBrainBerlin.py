@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import random
 import pandas as pd
 
+
 ##### network rewiring functions -- used to generate random network models
 def pick_4nodes(G):
     a = random.choice(list(G.nodes()))  # a random node
@@ -109,7 +110,7 @@ plt.show()
 
 
 ##### Extracting the rich club network
-RCthresh = 1.10  # if RCnorm is greater than this, rich club for sure
+RCthresh = 1.25  # if RCnorm is greater than this, rich club for sure
 K_RC_min = K[np.min(np.where(RCnorm>RCthresh))]
 K_RC_max = K[np.max(np.where(RCnorm>RCthresh))]
 nodes_RC = [node for node, degree in dict(G.degree()).items() 
@@ -117,15 +118,14 @@ nodes_RC = [node for node, degree in dict(G.degree()).items()
 G_RC = G.subgraph(nodes_RC)
 
 
-###### drawing the graph (rich club only) --- Kamada-Kawai layout
+###### drawing the graph (rich club only) --- Brain space
 plt.figure(figsize=[9,9])
 
-pos = nx.kamada_kawai_layout(G, weight=None) # positions for all nodes
 nx.draw_networkx_nodes(G, pos, node_color='salmon', node_size=200)
 nx.draw_networkx_nodes(G_RC, pos, node_color='deeppink')
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 nx.draw_networkx_edges(G_RC, pos, width=2.0, edge_color='darkblue')
 nx.draw_networkx_labels(G_RC, pos, font_size=10, font_color='black')
 plt.axis('off')
-plt.title('Dolphin social network\nRich club nodes and edges')
+plt.title('Brain network (Berlin)\nRich club nodes and edges')
 plt.show()
