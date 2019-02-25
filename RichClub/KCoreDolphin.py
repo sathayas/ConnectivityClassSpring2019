@@ -36,7 +36,7 @@ minKCore = min(listCoreNum)
 maxKCore = max(listCoreNum)
 
 ###### drawing the graph --- Kamada-Kawai layout
-node_color_list = get_cmap(maxKCore,'rainbow')
+node_color_list = get_cmap(maxKCore+1,'rainbow')
 plt.figure(figsize=[9,9])
 # k-core nodes
 for iCore in range(minKCore,maxKCore+1):
@@ -44,10 +44,11 @@ for iCore in range(minKCore,maxKCore+1):
                 if coreNum>=iCore]
     subG = G.subgraph(nodeCore)
     nx.draw_networkx_nodes(subG, pos, node_color=node_color_list(iCore),
-                           node_size=iCore*150)
+                           node_size=150+iCore*60, label=str(iCore)+'-core')
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 nx.draw_networkx_labels(G, pos, font_size=8, font_color='black')
 plt.axis('off')
-plt.title('Dolphin social network')
+plt.title('Dolphin social network\nShowing K-cores')
+plt.legend()
 plt.show()
 
