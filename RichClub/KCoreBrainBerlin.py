@@ -1,6 +1,7 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 ##### Custom distinct color function --- to be used later
 def get_cmap(n, name='hsv'):
@@ -44,20 +45,23 @@ listCoreNum = [kc for kc in KcoreDict.values()]
 minKCore = min(listCoreNum)
 maxKCore = max(listCoreNum)
 
-###### drawing the graph --- Kamada-Kawai layout
+###### drawing the graph (K-Core)
 node_color_list = get_cmap(maxKCore+1,'rainbow')
 plt.figure(figsize=[9,9])
+nx.draw_networkx_edges(G, pos, edge_color='lightblue')
+nx.draw_networkx_nodes(G, pos, node_color='salmon', node_size=100)
 # k-core nodes
-for iCore in range(minKCore,maxKCore+1):
+for iCore in range(5,maxKCore+1):
     nodeCore = [node for node, coreNum in KcoreDict.items()
                 if coreNum>=iCore]
     subG = G.subgraph(nodeCore)
     nx.draw_networkx_nodes(subG, pos, node_color=node_color_list(iCore),
-                           node_size=150+iCore*60, label=str(iCore)+'-core')
-nx.draw_networkx_edges(G, pos, edge_color='lightblue')
-nx.draw_networkx_labels(G, pos, font_size=8, font_color='black')
+                           node_size=100+iCore*30, label=str(iCore)+'-core')
+    nx.draw_networkx_labels(subG, pos, font_size=8, 
+                            font_color='black', font_weight='normal')
+    nx.draw_networkx_edges(subG, pos, width=2.0, edge_color='royalblue')
 plt.axis('off')
-plt.title('Dolphin social network\nShowing K-cores')
+plt.title('Brain network (Berlin)\nShowing K-cores')
 plt.legend()
 plt.show()
 
