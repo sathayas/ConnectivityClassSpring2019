@@ -6,7 +6,7 @@ import os
 
 
 # loading the label for different brain areas
-AALTable = pd.read_csv('DataRichClub/aal_MNI_V4_coord.csv')
+AALTable = pd.read_csv('DataModules/aal_MNI_V4_coord.csv')
 # dictionary of node names and xy-coordinates
 roiNames = {}
 pos = {}
@@ -14,12 +14,12 @@ for i in range(1,91):
     roiNames[i] = AALTable.iloc[i-1,1]
 
 # loading the list of files from the data directory
-listFiles = os.listdir('DataRichClub')
+listFiles = os.listdir('DataModules')
 listAdjlist = [i for i in listFiles if '.adjlist' in i]
 
 # loop over networks
 for iNet in listAdjlist:
-    fNet = os.path.join('DataRichClub',iNet)
+    fNet = os.path.join('DataModules',iNet)
     G = nx.read_adjlist(fNet, nodetype=int)
 
     # renaming nodes
