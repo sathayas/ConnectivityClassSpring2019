@@ -17,9 +17,11 @@ def girvan_newman_opt(G, verbose=False):
     commIndSetFull = girvan_newman(G)
     for iNumComm in range(2,len(G)):
         if verbose:
-            print('Commnity detection iteration : %d' % iNumComm)
+            print('Commnity detection iteration : %d' % iNumComm, end='')
         iPartition = next(commIndSetFull)  # partition with iNumComm communities
         Q = modularity(G, iPartition)  # modularity
+        if verbose:
+            print('  Modularity : %6.4f' % Q)
         if Q>runningMaxMod:  # saving the optimum partition and associated info
             runningMaxMod = Q
             OptPartition = iPartition
