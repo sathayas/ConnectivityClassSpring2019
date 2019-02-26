@@ -3,6 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from networkx.algorithms.community import LFR_benchmark_graph
 
+##### Custom distinct color function --- to be used later
+def get_cmap(n, name='hsv'):
+    '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
+    RGB color; the keyword argument name must be a standard mpl colormap name.'''
+    return plt.cm.get_cmap(name, n)
+
 
 # first, a simple toy example of modular network
 n = 150
@@ -29,15 +35,16 @@ plt.axis('off')
 # extracting community assignment indices
 commIndSet = {frozenset(G.nodes[v]['community']) for v in G}
 commInd = [list(x) for x in iter(commIndSet)]
+nComm = len(commInd)
 
 # drawing with community assignment
 plt.subplot(122)
-for iComm in range(len(commInd)):
-    nx.draw_networkx_nodes(G, pos, nodelist=commInd[iComm],
-                           cmap=plt.cm.rainbow, vmin=0, vmax=len(commInd)-1,
-                           node_color = [iComm]*len(commInd[iComm]),
-                           node_size=50)
+node_color_list = get_cmap(nComm+1,'rainbow')
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
+for iComm in range(nComm):
+    nx.draw_networkx_nodes(G, pos, nodelist=commInd[iComm],
+                           node_color = node_color_list(iComm),
+                           node_size=50)
 plt.title('Toy network with commnitites\nin different colors')
 plt.axis('off')
 
@@ -68,12 +75,13 @@ for i,imu in enumerate(mu):
     G = G_list[i]
     commIndSet = {frozenset(G.nodes[v]['community']) for v in G}
     commInd = [list(x) for x in iter(commIndSet)]
+    nComm = len(commInd)
+    node_color_list = get_cmap(nComm+1,'rainbow')
 
     pos = nx.kamada_kawai_layout(G, weight=None) # positions for all nodes
-    for iComm in range(len(commInd)):
+    for iComm in range(nComm):
         nx.draw_networkx_nodes(G, pos, nodelist=commInd[iComm],
-                               cmap=plt.cm.rainbow, vmin=0, vmax=len(commInd)-1,
-                               node_color = [iComm]*len(commInd[iComm]),
+                               node_color = node_color_list(iComm),
                                node_size=50)
     nx.draw_networkx_edges(G, pos, edge_color='lightblue')
     plt.title('Inter-community connection probability\n%6.4f' % imu)
