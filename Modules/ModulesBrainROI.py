@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from networkx.algorithms.community import girvan_newman, modularity
 import community   # Louvain method
+import pandas as pd
+
 
 ##### Custom distinct color function --- to be used later
 def get_cmap(n, name='hsv'):
@@ -51,138 +53,69 @@ partition_Oxford_L = community.best_partition(G_Oxford)
 
 
 ###### Modularity
-print('Modularity -- karate network')
-print('Girvan-Newman: %6.4f' % community.modularity(partition_karate_GN,
-                                                    G_karate))
-print('Louvain: %6.4f' % community.modularity(partition_karate_L,
-                                              G_karate))
-print()
-
-print('Modularity -- football network')
-print('Girvan-Newman: %6.4f' % community.modularity(partition_football_GN,
-                                                    G_football))
-print('Louvain: %6.4f' % community.modularity(partition_football_L,
-                                              G_football))
-print()
+print('Modularity')
+print('Girvan-Newman: %6.4f' % community.modularity(partition_Oxford_GN,
+                                                    G_Oxford))
+print('Louvain: %6.4f' % community.modularity(partition_Oxford_L,
+                                              G_Oxford))
 
 
 
 
-###### drawing the graph (karate network)
-plt.figure(figsize=[9,4])
+###### drawing the graph 
+# loading the coordinates info for brain areas
+AALTable = pd.read_csv('DataModules/aal_MNI_V4_coord.csv')
+# dictionary of xy-coordinates
+pos = {}
+for i in range(1,91):
+    pos[AALTable.iloc[i-1,1]] = np.array(AALTable.loc[i-1,
+                                                      ['centerX',
+                                                       'centerY']])
 
 # first, graph without community assignments
-plt.subplot(131)
-pos = nx.kamada_kawai_layout(G_karate, weight=None) # positions for all nodes
-nx.draw_networkx_nodes(G_karate, pos)
-nx.draw_networkx_edges(G_karate, pos,
+plt.figure(figsize=[7,7])
+nx.draw_networkx_nodes(G_Oxford, pos, node_color='salmon',
+                       node_size=100)
+nx.draw_networkx_edges(G_Oxford, pos,
                        edge_color='lightblue')
-nx.draw_networkx_labels(G_karate, pos, font_size=10, font_color='DarkGreen')
-plt.title('Original karate network')
+nx.draw_networkx_labels(G_Oxford, pos, font_size=7, font_color='black')
+plt.title('Original brain network (ROI, Oxford)')
 plt.axis('off')
-plt.xlim([-0.6, 0.65])
-plt.ylim([-0.85, 1.2])
+plt.show()
 
 # next, graph with communities in different colors (Girvan-Newman)
-plt.subplot(132)
-nComm = max([comm for comm in partition_karate_GN.values()])+1
+plt.figure(figsize=[7,7])
+nComm = max([comm for comm in partition_Oxford_GN.values()])+1
 node_color_list = get_cmap(nComm+1,'rainbow')
 for iComm in range(nComm):
-    nodeList = [iNode for iNode,Comm in partition_karate_GN.items()
+    nodeList = [iNode for iNode,Comm in partition_Oxford_GN.items()
                 if Comm==iComm]
-    nx.draw_networkx_nodes(G_karate, pos, 
+    nx.draw_networkx_nodes(G_Oxford, pos, 
                            nodelist=nodeList,
                            node_color = node_color_list(iComm),
-                           node_size=300)
-nx.draw_networkx_edges(G_karate, pos,
+                           node_size=100)
+nx.draw_networkx_edges(G_Oxford, pos,
                        edge_color='lightblue')
-nx.draw_networkx_labels(G_karate, pos, font_size=10, font_color='White')
+nx.draw_networkx_labels(G_Oxford, pos, font_size=7, font_color='Black')
 plt.title('Girvan-Newman method')
 plt.axis('off')
-plt.xlim([-0.6, 0.65])
-plt.ylim([-0.85, 1.2])
+plt.show()
 
 # finally, graph with communities in different colors (Louvain)
-plt.subplot(133)
-nComm = max([comm for comm in partition_karate_L.values()])+1
+plt.figure(figsize=[7,7])
+nComm = max([comm for comm in partition_Oxford_L.values()])+1
 node_color_list = get_cmap(nComm+1,'rainbow')
 for iComm in range(nComm):
-    nodeList = [iNode for iNode,Comm in partition_karate_L.items()
+    nodeList = [iNode for iNode,Comm in partition_Oxford_L.items()
                 if Comm==iComm]
-    nx.draw_networkx_nodes(G_karate, pos, 
-                           nodelist=nodeList,
-                           node_color = node_color_list(iComm),
-                           node_size=300)
-nx.draw_networkx_edges(G_karate, pos,
-                       edge_color='lightblue')
-nx.draw_networkx_labels(G_karate, pos, font_size=10, font_color='White')
-plt.title('Louvain method')
-plt.axis('off')
-plt.xlim([-0.6, 0.65])
-plt.ylim([-0.85, 1.2])
-
-plt.subplots_adjust(hspace=0.15, wspace=0.075, bottom=0.025, top=0.875,
-                    left=0.05, right=0.95)
-plt.show()
-
-
-
-#### drawing the graph (football network)
-plt.figure(figsize=[10,4.5])
-plt.subplot(131)
-
-# first, graph without community assignments
-pos = nx.kamada_kawai_layout(G_football, weight=None) # positions for all nodes
-nx.draw_networkx_nodes(G_football, pos, node_size=100)
-nx.draw_networkx_edges(G_football, pos,
-                       edge_color='lightblue')
-nx.draw_networkx_labels(G_football, pos, font_size=7, font_color='Black')
-plt.title('Original football network')
-plt.axis('off')
-plt.xlim([-1.15, 1.15])
-plt.ylim([-1.15, 1.15])
-
-# next, graph with communities in different colors (Girvan-Newman)
-plt.subplot(132)
-nComm = max([comm for comm in partition_football_GN.values()])+1
-node_color_list = get_cmap(nComm+1,'rainbow')
-for iComm in range(nComm):
-    nodeList = [iNode for iNode,Comm in partition_football_GN.items()
-                if Comm==iComm]
-    nx.draw_networkx_nodes(G_football, pos, 
+    nx.draw_networkx_nodes(G_Oxford, pos, 
                            nodelist=nodeList,
                            node_color = node_color_list(iComm),
                            node_size=100)
-nx.draw_networkx_edges(G_football, pos,
+nx.draw_networkx_edges(G_Oxford, pos,
                        edge_color='lightblue')
-nx.draw_networkx_labels(G_football, pos, font_size=7, font_color='black')
-plt.title('Girvan-Newman method')
-plt.axis('off')
-plt.xlim([-1.15, 1.15])
-plt.ylim([-1.15, 1.15])
-
-# next, graph with communities in different colors (Louvain)
-plt.subplot(133)
-nComm = max([comm for comm in partition_football_L.values()])+1
-node_color_list = get_cmap(nComm+1,'rainbow')
-for iComm in range(nComm):
-    nodeList = [iNode for iNode,Comm in partition_football_L.items()
-                if Comm==iComm]
-    nx.draw_networkx_nodes(G_football, pos, 
-                           nodelist=nodeList,
-                           node_color = node_color_list(iComm),
-                           node_size=100)
-nx.draw_networkx_edges(G_football, pos,
-                       edge_color='lightblue')
-nx.draw_networkx_labels(G_football, pos, font_size=7, font_color='black')
+nx.draw_networkx_labels(G_Oxford, pos, font_size=7, font_color='Black')
 plt.title('Louvain method')
 plt.axis('off')
-plt.xlim([-1.15, 1.15])
-plt.ylim([-1.15, 1.15])
-
-
-plt.subplots_adjust(hspace=0.15, wspace=0.075, bottom=0.025, top=0.875,
-                    left=0.05, right=0.95)
 plt.show()
-
 
