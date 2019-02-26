@@ -56,6 +56,23 @@ partition_karate_L = community.best_partition(G_karate)
 partition_football_L = community.best_partition(G_football)
 
 
+###### Modularity
+print('Modularity -- karate network')
+print('Girvan-Newman: %6.4f' % community.modularity(partition_karate_GN,
+                                                    G_karate))
+print('Louvain: %6.4f' % community.modularity(partition_karate_L,
+                                              G_karate))
+print()
+
+print('Modularity -- football network')
+print('Girvan-Newman: %6.4f' % community.modularity(partition_football_GN,
+                                                    G_football))
+print('Louvain: %6.4f' % community.modularity(partition_football_L,
+                                              G_football))
+print()
+
+
+
 
 ###### drawing the graph (karate network)
 plt.figure(figsize=[9,4])
