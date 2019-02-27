@@ -83,7 +83,6 @@ partition_L = np.load('DataModules/partition_L.npy').item()
 ##### Creating a 3D image of module assignments
 X = np.zeros(voxDim)  # initializing the module image
 nComm = max([comm for comm in partition_L.values()])+1
-mod_color_list = get_cmap(nComm+1, 'rainbow')
 for iComm in range(nComm):
     # list of nodes in a particular module
     nodeList = [iNode for iNode,Comm in partition_L.items()
