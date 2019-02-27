@@ -2,6 +2,7 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 import community   # Louvain method
+import pandas as pd
 
 ##### Parameters
 voxDim = [46, 56, 42]
@@ -83,16 +84,17 @@ G = nx.read_adjlist('DataModules/Oxford_sub16112_voxel_d20_connected.adjlist',
 #np.save('DataModules/partition_L.npy', partition_L)
 partition_L = np.load('DataModules/partition_L.npy').item()
 
+
 ##### degree sequence
 dictK = dict(G.degree())
 
 ##### Within node degree Z-scores
-dictZ_GN = withinModDegree(G, partition_GN)
-dictPC_GN = PC(G, partition_GN)
+dictZ_L = withinModDegree(G, partition_L)
+dictPC_L = PC(G, partition_L)
 
 
 ##### Creating a dataframe for all info
-dataModules = pd.DataFrame(partition_GN.items(),
+dataModules = pd.DataFrame(partition_L.items(),
                            columns=['Node','ModuleID'])
 # adding degree (from the original network)
 dataModules = pd.merge(dataModules,
@@ -100,11 +102,11 @@ dataModules = pd.merge(dataModules,
                        on='Node')
 # adding Z score
 dataModules = pd.merge(dataModules,
-                       pd.DataFrame(dictZ_GN.items(),columns=['Node','Z']),
+                       pd.DataFrame(dictZ_L.items(),columns=['Node','Z']),
                        on='Node')
 # adding PC
 dataModules = pd.merge(dataModules,
-                       pd.DataFrame(dictPC_GN.items(),columns=['Node','PC']),
+                       pd.DataFrame(dictPC_L.items(),columns=['Node','PC']),
                        on='Node')
 
 ##### assigning roles
@@ -135,8 +137,11 @@ dataModules['Role'] = role
 roleString = {1:'ultra-peripheral node',
               2:'peripheral node',
               3:'non-hub connector node',
-              4:'non-hub kinless node'}
-for iRole in range(1,5):
+              4:'non-hub kinless node',
+              5:'provincial hub',
+              6:'connector hub',
+              7:'kinless hub'}
+for iRole in range(1,8):
     plt.plot(dataModules[dataModules.Role==iRole].PC,
              dataModules[dataModules.Role==iRole].Z,
              '.', label=roleString[iRole])
