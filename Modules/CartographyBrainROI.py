@@ -130,6 +130,29 @@ dataModules = pd.merge(dataModules,
                        pd.DataFrame(dictPC_GN.items(),columns=['Node','PC']),
                        on='Node')
 
+##### assigning roles
+role = []
+for i, iRow in dataModules.iterrows():
+    # hubs or non-hubs
+    if iRow.Z>=2.5:  # hubs
+        if iRow.PC<=0.3:
+            role.append(5)   # 5: provincial hub
+        elif iRow.PC<=0.75:
+            role.append(6)   # 6: connector hub
+        else:
+            role.append(7)   # 7: kinless hub
+    else:
+        if iRow.PC<=0.05:
+            role.append(1)   # 1: ultra-peripheral node
+        elif iRow.PC<=0.63:
+            role.append(2)   # 2: peripheral node
+        elif iRow.PC<=0.8:
+            role.append(3)   # 3: non-hub connector nodes
+        else:
+            role.append(4)   # 4: non-hub kinless node
+dataModules['Role'] = role
+
+
 
 # Plotting PC vs Z
 plt.plot(dataModules.PC, dataModules.Z, 'b.')
