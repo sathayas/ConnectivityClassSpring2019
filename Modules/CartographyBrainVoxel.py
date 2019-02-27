@@ -1,33 +1,16 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-from networkx.algorithms.community import girvan_newman, modularity
 import community   # Louvain method
-import pandas as pd
 
+##### Parameters
+voxDim = [46, 56, 42]
 
 ##### Custom distinct color function --- to be used later
 def get_cmap(n, name='hsv'):
     '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
     RGB color; the keyword argument name must be a standard mpl colormap name.'''
     return plt.cm.get_cmap(name, n)
-
-
-##### girman-newman method, optimized with modularity
-def girvan_newman_opt(G, verbose=False):
-    runningMaxMod = 0
-    commIndSetFull = girvan_newman(G)
-    for iNumComm in range(2,len(G)):
-        if verbose:
-            print('Commnity detection iteration : %d' % iNumComm, end='')
-        iPartition = next(commIndSetFull)  # partition with iNumComm communities
-        Q = modularity(G, iPartition)  # modularity
-        if verbose:
-            print('  Modularity : %6.4f' % Q)
-        if Q>runningMaxMod:  # saving the optimum partition and associated info
-            runningMaxMod = Q
-            OptPartition = iPartition
-    return OptPartition
 
 
 ###### Within module degree function
@@ -88,23 +71,17 @@ def PC(G, partition):
 
 
 ##### loading network data
-# Brain network (ROI, Oxford)
-G = nx.read_adjlist('DataModules/Oxford_sub16112_aal90_d5_connected_annotated.adjlist')  
+# Brain network (Voxel, Oxford)
+G = nx.read_adjlist('DataModules/Oxford_sub16112_voxel_d20_connected.adjlist',
+                    nodetype=int)  
 
 
 ##### Community detection 
-# Community detection with the girvan-newman algorithm
-commInd = girvan_newman_opt(G)
-# converting the partitions into dictionaries
-partition_GN = {}
-for i,iComm in enumerate(commInd):
-    for iNode in iComm:
-        partition_GN[iNode] = i
-
-
 # Community detection with the Louvain method
-partition_L = community.best_partition(G)
+#partition_L = community.best_partition(G)
 
+#np.save('DataModules/partition_L.npy', partition_L)
+partition_L = np.load('DataModules/partition_L.npy').item()
 
 ##### degree sequence
 dictK = dict(G.degree())
