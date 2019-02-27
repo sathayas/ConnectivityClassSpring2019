@@ -148,6 +148,7 @@ plt.show()
 
 
 ##### Creating a 3D image of brain voxels
+X = np.zeros(voxDim)
 voxelList = list(dataModules.Node)
 # converting the node number (linear index) to 3D coord
 voxelXYZ = np.unravel_index(voxelList, voxDim)
