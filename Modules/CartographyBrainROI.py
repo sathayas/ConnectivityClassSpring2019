@@ -106,6 +106,28 @@ for i,iComm in enumerate(commInd):
 partition_L = community.best_partition(G)
 
 
+##### degree sequence
+dictK = dict(G.degree())
+
 ##### Within node degree Z-scores
 dictZ_GN = withinModDegree(G, partition_GN)
 dictPC_GN = PC(G, partition_GN)
+
+
+##### Creating a dataframe for all info
+dataModules = pd.DataFrame(partition_GN.items(),
+                           columns=['Node','ModuleID'])
+# adding degree (from the original network)
+dataModules = pd.merge(dataModules,
+                       pd.DataFrame(dictK.items(),columns=['Node','Degree']),
+                       on='Node')
+# adding Z score
+dataModules = pd.merge(dataModules,
+                       pd.DataFrame(dictZ_GN.items(),columns=['Node','Z']),
+                       on='Node')
+# adding PC
+dataModules = pd.merge(dataModules,
+                       pd.DataFrame(dictPC_GN.items(),columns=['Node','PC']),
+                       on='Node')
+
+    
