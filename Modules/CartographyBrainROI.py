@@ -154,6 +154,14 @@ dataModules['Role'] = role
 
 
 
+###### List of (psudo-)hubs
+dataModules.sort_values(by='Z', ascending=False).head(5)
+
+###### List of kinless nodes with high PC
+dataModules.sort_values(by='PC', ascending=False).head(5)
+
+
+
 # Plotting PC vs Z
 roleString = {1:'ultra-peripheral node',
               2:'peripheral node',
