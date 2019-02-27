@@ -7,12 +7,6 @@ import pandas as pd
 ##### Parameters
 voxDim = [46, 56, 42]
 
-##### Custom distinct color function --- to be used later
-def get_cmap(n, name='hsv'):
-    '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
-    RGB color; the keyword argument name must be a standard mpl colormap name.'''
-    return plt.cm.get_cmap(name, n)
-
 
 ###### Within module degree function
 def withinModDegree(G, partition):
@@ -97,4 +91,22 @@ for iComm in range(nComm):
     # converting the node number (linear index) to 3D coord
     nodeXYZ = np.unravel_index(nodeList, voxDim)
     X[nodeXYZ] = iComm+1
+
+# blanking the background
+X[X==0] = None
+
+
+
+##### visualing the modules in the brain space
+plt.figure(figsize=[10,8])
+
+for i,z in enumerate(np.arange(12,35,2)):
+    plt.subplot(3,4,i+1)
+    plt.imshow(np.rot90(X[:,:,z]), cmap='tab20')
+    plt.title('Z='+str(z))
+    plt.axis('off')
+
+plt.subplots_adjust(hspace=0.2, wspace=0.0, bottom=0.025, top=0.95,
+                    left=0, right=1.0)
+plt.show()
 
