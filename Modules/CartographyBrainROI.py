@@ -130,4 +130,10 @@ dataModules = pd.merge(dataModules,
                        pd.DataFrame(dictPC_GN.items(),columns=['Node','PC']),
                        on='Node')
 
+
+# Plotting PC vs Z
+plt.plot(dataModules.PC, dataModules.Z, 'b.')
+plt.xlabel('Participation coefficient')
+plt.ylabel('Within module degree Z-score')
+plt.show()
     
