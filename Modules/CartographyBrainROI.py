@@ -147,7 +147,7 @@ for i, iRow in dataModules.iterrows():
         elif iRow.PC<=0.63:
             role.append(2)   # 2: peripheral node
         elif iRow.PC<=0.8:
-            role.append(3)   # 3: non-hub connector nodes
+            role.append(3)   # 3: non-hub connector node
         else:
             role.append(4)   # 4: non-hub kinless node
 dataModules['Role'] = role
@@ -155,8 +155,15 @@ dataModules['Role'] = role
 
 
 # Plotting PC vs Z
-plt.plot(dataModules.PC, dataModules.Z, 'b.')
+roleString = {1:'ultra-peripheral node',
+              2:'peripheral node',
+              3:'non-hub connector node',
+              4:'non-hub kinless node'}
+for iRole in range(1,5):
+    plt.plot(dataModules[dataModules.Role==iRole].PC,
+             dataModules[dataModules.Role==iRole].Z,
+             '.', label=roleString[iRole])
 plt.xlabel('Participation coefficient')
 plt.ylabel('Within module degree Z-score')
+plt.legend()
 plt.show()
-    
