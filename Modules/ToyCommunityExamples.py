@@ -43,7 +43,7 @@ node_color_list = get_cmap(nComm+1,'rainbow')
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 for iComm in range(nComm):
     nx.draw_networkx_nodes(G, pos, nodelist=commInd[iComm],
-                           node_color = node_color_list(iComm),
+                           node_color = np.array([node_color_list(iComm)]),
                            node_size=50)
 plt.title('Toy network with commnitites\nin different colors')
 plt.axis('off')
@@ -81,7 +81,7 @@ for i,imu in enumerate(mu):
     pos = nx.kamada_kawai_layout(G, weight=None) # positions for all nodes
     for iComm in range(nComm):
         nx.draw_networkx_nodes(G, pos, nodelist=commInd[iComm],
-                               node_color = node_color_list(iComm),
+                               node_color = np.array([node_color_list(iComm)]),
                                node_size=50)
     nx.draw_networkx_edges(G, pos, edge_color='lightblue')
     plt.title('Inter-community connection probability\n%6.4f' % imu)
