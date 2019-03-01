@@ -98,7 +98,7 @@ for iComm in range(nComm):
                 if Comm==iComm]
     nx.draw_networkx_nodes(G_karate, pos, 
                            nodelist=nodeList,
-                           node_color = node_color_list(iComm),
+                           node_color = np.array([node_color_list(iComm)]),
                            node_size=300)
 nx.draw_networkx_edges(G_karate, pos,
                        edge_color='lightblue')
@@ -117,7 +117,7 @@ for iComm in range(nComm):
                 if Comm==iComm]
     nx.draw_networkx_nodes(G_karate, pos, 
                            nodelist=nodeList,
-                           node_color = node_color_list(iComm),
+                           node_color = np.array([node_color_list(iComm)]),
                            node_size=300)
 nx.draw_networkx_edges(G_karate, pos,
                        edge_color='lightblue')
@@ -157,7 +157,7 @@ for iComm in range(nComm):
                 if Comm==iComm]
     nx.draw_networkx_nodes(G_football, pos, 
                            nodelist=nodeList,
-                           node_color = node_color_list(iComm),
+                           node_color = np.array([node_color_list(iComm)]),
                            node_size=100)
 nx.draw_networkx_edges(G_football, pos,
                        edge_color='lightblue')
@@ -176,7 +176,7 @@ for iComm in range(nComm):
                 if Comm==iComm]
     nx.draw_networkx_nodes(G_football, pos, 
                            nodelist=nodeList,
-                           node_color = node_color_list(iComm),
+                           node_color = np.array([node_color_list(iComm)]),
                            node_size=100)
 nx.draw_networkx_edges(G_football, pos,
                        edge_color='lightblue')
