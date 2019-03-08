@@ -127,18 +127,19 @@ X_AAL = AAL.get_data()
 X_Rt2 = Rt2.get_data()
 
 
+zSlice = 25
 plt.figure(figsize=[9,4])
 
 plt.subplot(131)
-show_section(X_fMRI[:,:,:,1],'xy',25)
+show_section(X_fMRI[:,:,:,1],'xy',zSlice)
 plt.title('fMRI data')
 
 plt.subplot(132)
-show_section(X_AAL,'xy',25, nameCmap='rainbow')
+show_section(X_AAL,'xy',zSlice, nameCmap='rainbow')
 plt.title('AAL atlas')
 
 plt.subplot(133)
-show_section(X_Rt2[:,:,:,20],'xy',25, nameCmap='rainbow')
+show_section(X_Rt2[:,:,:,20],'xy',zSlice, nameCmap='rainbow')
 plt.title('Rt2 atlas')
 
 plt.show()
