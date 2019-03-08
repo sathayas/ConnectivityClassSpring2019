@@ -56,6 +56,14 @@ def extract_roits(datafMRI, dataAtlas):
     return roi_ts, roi_ind
 
 
+###### function to extract mean ROI coordinates for future plotting
+def roi_coord(dataAtlas, nodeList):
+    xyzROI = []
+    for iNode in nodeList:
+        ROIvoxels = np.mean(np.where(dataAtlas==iNode), axis=1)
+        xyzROI.append(list(ROIvoxels))
+    return np.array(xyzROI)
+
 
 ###### Image data files
 # atlas data files (resliced version)
@@ -73,12 +81,13 @@ X_fMRI = nib.load(f_fMRI).get_data()
 
 ###### Extracting time series (AAL)
 ts_AAL, node_AAL = extract_roits(X_fMRI, X_AAL)
-
+xyz_AAL = roi_coord(X_AAL, node_AAL)
 
 # saving for later use
-np.savez('Oxford_sub16112_aal_ts.npz',
-         ts = tsAAL,
-         nodes = nodeAAL)
+np.savez('DataAtlas/Oxford_sub16112_aal_ts.npz',
+         ts = ts_AAL,
+         nodes = node_AAL,
+         xyz = xyz_AAL)
 
 
 
@@ -89,7 +98,16 @@ subK = [50, 100, 200, 500, 950]   # Ks for example atlases
 indK = [list(K).index(k) for k in subK]  # indices corresponding to subK
 
 # actual time series extraction (Rt2, K=200)
-ts_Rt2, node_Rt2 = extract_roits(X_fMRI, X_Rt2[:,:,:,indK[subK.index(200)]])
+targetK = 200
+ts_Rt2, node_Rt2 = extract_roits(X_fMRI, 
+                                 X_Rt2[:,:,:,indK[subK.index(targetK)]])
+xyz_Rt2 = roi_coord(X_Rt2, node_Rt2)
+
+# saving for later use
+np.savez('DataAtlas/Oxford_sub16112_rt2_K' + str(targetK) +'.npz',
+         ts = ts_Rt2,
+         nodes = node_Rt2,
+         xyz = xyz_Rt2)
 
 
 
