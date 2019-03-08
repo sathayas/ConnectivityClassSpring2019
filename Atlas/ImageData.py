@@ -4,15 +4,15 @@ import matplotlib.pyplot as plt
 
 
 ###### functions to display 3D image
-def show_plane(x):
+def show_plane(x, nameCmap='gray'):
     '''
     Function to show a slice (provided as a 2D array)
     '''
-    plt.imshow(x, cmap="gray")
+    plt.imshow(x, cmap=nameCmap)
     plt.gca().set_axis_off()
 
 
-def show_section(xImg, section, xSlice):
+def show_section(xImg, section, xSlice, nameCmap='gray'):
     '''
     Function to return a 2D array of a slice from a 3D array.
     Slice orientation can be specified by the user.
@@ -23,7 +23,7 @@ def show_section(xImg, section, xSlice):
         tmpImg = xImg[:,xSlice,:]
     else:
         tmpImg = xImg[xSlice,:,:]
-    show_plane(np.rot90(tmpImg))
+    show_plane(np.rot90(tmpImg),nameCmap)
 
 
 
@@ -74,9 +74,10 @@ plt.show()
 # loading the AAL atlas data
 AAL = nib.load(f_atlasAAL)   # image object
 hdr_AAL = AAL.header   # header information
-X_AAL = AAL.get_data()  # image data array
+X_AAL = AAL.get_data().astype(float)  # image data array
 
-show_section(X_AAL[:,:,:,0], 'xy', 38) # xy-section, at time=iTime
+X_AAL[X_AAL==0] = np.nan  # suppressing the background
+show_section(X_AAL[:,:,:,0], 'xy', 38, nameCmap='rainbow') 
 plt.title('AAL atlas')
 plt.show()
 
@@ -86,7 +87,7 @@ plt.show()
 # loading the Rt2 atlas data
 Rt2 = nib.load(f_atlasRt2)   # image object
 hdr_Rt2 = Rt2.header   # header information
-X_Rt2 = Rt2.get_data()  # image data array
+X_Rt2 = Rt2.get_data().astype(float)  # image data array
 
 # Ks for clustering algorithm
 K = list(range(10,301,10)) + list(range(350,1000,50))  
@@ -95,11 +96,12 @@ indK = [list(K).index(k) for k in subK]  # indices corresponding to subK
 
 
 # showing the atlas with different Ks
+X_Rt2[X_Rt2==0] = np.nan  # suppressing the background
 plt.figure(figsize=[12,3])
 
 for i,K in enumerate(subK):
     plt.subplot(1,5,i+1)
-    show_section(X_Rt2[:,:,:,indK[i]], 'xy', 20) # xy-section
+    show_section(X_Rt2[:,:,:,indK[i]], 'xy', 20, nameCmap='rainbow') 
     plt.title('Atlas with K=' + str(K))
 
 plt.show()
