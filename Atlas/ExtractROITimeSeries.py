@@ -101,7 +101,8 @@ indK = [list(K).index(k) for k in subK]  # indices corresponding to subK
 targetK = 200
 ts_Rt2, node_Rt2 = extract_roits(X_fMRI, 
                                  X_Rt2[:,:,:,indK[subK.index(targetK)]])
-xyz_Rt2 = roi_coord(X_Rt2, node_Rt2)
+xyz_Rt2 = roi_coord(X_Rt2[:,:,:,indK[subK.index(targetK)]], 
+                    node_Rt2)
 
 # saving for later use
 np.savez('DataAtlas/Oxford_sub16112_rt2_K' + str(targetK) +'.npz',
