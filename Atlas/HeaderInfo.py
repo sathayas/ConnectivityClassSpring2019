@@ -36,9 +36,6 @@ AAL = nib.load(f_atlasAAL)   # image object
 hdr_AAL = AAL.header   # header information
 X_AAL = AAL.get_data()  # image data array
 
-# priting out the header information
-print(hdr_AAL)
-
 # image dimension
 print(hdr_AAL.get_data_shape())
 
