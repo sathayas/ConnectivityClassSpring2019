@@ -197,8 +197,7 @@ indK = [list(K).index(k) for k in subK]  # indices corresponding to subK
 ###### Loop over K for constructing networks
 G_degree = []
 nodes_degree = []
-G_rank = []
-nodes_rank = []
+xyz_degree = []
 for i,targetK in enumerate(subK):
 
     ###### Loadin the data from the previous time
@@ -221,28 +220,24 @@ for i,targetK in enumerate(subK):
     # hard thresholding -- with user-defined target degree
     targetDeg = 10
     G = net_builder_HardTh(R, nodes, targetDeg)
+    # saving the results for later
     G_degree.append(G)
     nodes_degree.append(nodes)
-    # rank thresholding -- with user-defined d
-    target_d = 7
-    H = net_builder_RankTh(R, nodes, target_d)
-    G_rank.append(H)
-    nodes_rank.append(nodes)
-
+    xyz_degree.append(xyz)
 
 
 
 ###### visualizing the networks
 # Loop over K for visualization
+plt.figure(figsize=[12,4])
 for i,targetK in enumerate(subK):
 
     # dictionary of xy-coordinates
     pos = {}
     for iROI in range(len(nodes_degree[i])):
-        pos[nodes_degree[i][iROI]] = xyz[i,:2]
+        pos[nodes_degree[i][iROI]] = xyz_degree[i][iROI,:2]
 
     # first, hard-thresholding network
-    plt.figure(figsize=[12,4])
     plt.subplot(1,5,i+1)
     nx.draw_networkx_nodes(G_degree[i], pos, node_color='salmon',
                            node_size=100)
