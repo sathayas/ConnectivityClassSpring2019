@@ -248,7 +248,7 @@ for i,targetK in enumerate(subK):
                            node_size=100)
     nx.draw_networkx_edges(G_degree[i], pos,
                            edge_color='lightblue')
-    nx.draw_networkx_labels(G_degree, pos, font_size=7, font_color='black')
+    nx.draw_networkx_labels(G_degree[i], pos, font_size=7, font_color='black')
     plt.title('Hard thresholding, avg deg=' + str(targetDeg))
     plt.axis('off')
 
