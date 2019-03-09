@@ -97,18 +97,19 @@ K = list(range(10,301,10)) + list(range(350,1000,50))
 subK = [50, 100, 200, 500, 950]   # Ks for example atlases
 indK = [list(K).index(k) for k in subK]  # indices corresponding to subK
 
-# actual time series extraction (Rt2, K=200)
-targetK = 200
-ts_Rt2, node_Rt2 = extract_roits(X_fMRI, 
-                                 X_Rt2[:,:,:,indK[subK.index(targetK)]])
-xyz_Rt2 = roi_coord(X_Rt2[:,:,:,indK[subK.index(targetK)]], 
-                    node_Rt2)
+# actual time series extraction (Rt2)
+for i,targetK in enumerate(subK):
+    ts_Rt2, node_Rt2 = extract_roits(X_fMRI, 
+                                     X_Rt2[:,:,:,indK[i]])
+    xyz_Rt2 = roi_coord(X_Rt2[:,:,:,indK[i]], 
+                        node_Rt2)
 
-# saving for later use
-np.savez('DataAtlas/Oxford_sub16112_rt2_K' + str(targetK) +'.npz',
-         ts = ts_Rt2,
-         nodes = node_Rt2,
-         xyz = xyz_Rt2)
+    # saving for later use
+    np.savez('DataAtlas/Oxford_sub16112_rt2_K' + str(targetK) +'.npz',
+             ts = ts_Rt2,
+             nodes = node_Rt2,
+             xyz = xyz_Rt2)
+
 
 
 
