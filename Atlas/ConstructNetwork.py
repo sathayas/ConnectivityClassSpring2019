@@ -182,6 +182,13 @@ plt.axis('off')
 plt.show()
 
 
+###### saving the network data for future use
+nx.write_adjlist(G_degree,
+                 'DataAtlas/Oxford_sub16112_aal_deg10.adjlist')
+nx.write_adjlist(G_rank,
+                 'DataAtlas/Oxford_sub16112_aal_d7.adjlist')
+
+
 
 
 
@@ -220,10 +227,15 @@ for i,targetK in enumerate(subK):
     # hard thresholding -- with user-defined target degree
     targetDeg = 10
     G = net_builder_HardTh(R, nodes, targetDeg)
-    # saving the results for later
+    # keeping the results for later
     G_degree.append(G)
     nodes_degree.append(nodes)
     xyz_degree.append(xyz)
+
+    ###### writing network to a file
+    fNet = 'DataAtlas/Oxford_sub16112_Rt2_K' + str(targetK)
+    fNet += '_deg' + str(targetDeg) + '.adjlist'
+    nx.write_adjlist(G, fNet)
 
 
 
