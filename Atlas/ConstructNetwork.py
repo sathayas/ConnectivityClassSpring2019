@@ -4,6 +4,9 @@ import nibabel as nib
 import networkx as nx
 import matplotlib.pyplot as plt
 
+###### Parameters
+targetDeg = 10  # target average degree
+
 
 ###### Network construction functions, based on correlation matrix
 
@@ -144,7 +147,6 @@ plt.show()
 
 ###### Thresholding
 # hard thresholding -- with user-defined target degree
-targetDeg = 10
 G_degree = net_builder_HardTh(R, nodes, targetDeg)
 # rank thresholding -- with user-defined d
 target_d = 7
@@ -225,7 +227,6 @@ for i,targetK in enumerate(subK):
 
     ###### Thresholding
     # hard thresholding -- with user-defined target degree
-    targetDeg = 10
     G = net_builder_HardTh(R, nodes, targetDeg)
     # keeping the results for later
     G_degree.append(G)
