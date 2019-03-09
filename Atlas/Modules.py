@@ -28,6 +28,7 @@ GC_list = []
 nodes_list = []
 xyz_list = []
 partition_list = []
+Q_list = []
 for i,targetK in enumerate(subK):
     ###### file name, then loading network
     fNet = 'DataAtlas/Oxford_sub16112_Rt2_K' + str(targetK)
@@ -54,7 +55,19 @@ for i,targetK in enumerate(subK):
     ###### modular partition by Louvain
     partition = community.best_partition(GC)
     partition_list.append(partition)
+    Q_list.append(community.modularity(partition, GC))
 
+    
+
+###### Plotting modularity vs network size
+plt.plot(subK,Q_list,'b.-')
+plt.xscale('log')
+plt.xlabel('Atlas K')
+plt.ylabel('Modularity')
+plt.title('Modularity vs network size K')
+plt.show()
+
+    
 
 ###### drawing the graph 
 # Loop over K for visualization
