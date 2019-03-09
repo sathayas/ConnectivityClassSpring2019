@@ -110,9 +110,13 @@ def net_builder_HardTh(R, NodeInd, K, cType=1):
     return G
 
 
+
+
+
+############### Network according to AAL #################
+
 ###### Loadin the data from the previous time
-#f_TS = 'DataAtlas/Oxford_sub16112_aal_ts.npz'
-f_TS = 'DataAtlas/Oxford_sub16112_rt2_K200.npz'
+f_TS = 'DataAtlas/Oxford_sub16112_aal_ts.npz'
 infile = np.load(f_TS)
 ts = infile['ts']
 nodes = infile['nodes']
@@ -124,6 +128,7 @@ R = np.corrcoef(ts, rowvar=False)
 
 # showing the correlation coefficient
 plt.imshow(R)
+plt.title('Correlation matrix')
 plt.show()
 
 # making the diagonal elements to zero
@@ -132,6 +137,7 @@ for iRow in range(R.shape[0]):
 
 # showing the correlation coefficient
 plt.imshow(R)
+plt.title('Correlation matrix (no diagonal)')
 plt.show()
 
 
@@ -170,7 +176,80 @@ nx.draw_networkx_nodes(G_rank, pos, node_color='salmon',
 nx.draw_networkx_edges(G_rank, pos,
                        edge_color='lightblue')
 nx.draw_networkx_labels(G_rank, pos, font_size=7, font_color='black')
-plt.title('Rank thresholding, target d=' + str(target_d))
+plt.title('Node-wise thresholding, target d=' + str(target_d))
 plt.axis('off')
 
 plt.show()
+
+
+
+
+
+
+
+############### Network according to Rt2 #################
+
+# Ks for clustering algorithm
+K = list(range(10,301,10)) + list(range(350,1000,50))  
+subK = [50, 100, 200, 500, 950]   # Ks for example atlases
+indK = [list(K).index(k) for k in subK]  # indices corresponding to subK
+
+###### Loop over K for constructing networks
+G_degree = []
+G_rank = []
+for i,targetK in enumerate(subK):
+
+    ###### Loadin the data from the previous time
+    f_TS = 'DataAtlas/Oxford_sub16112_Rt2_K' + str(targetK) + '.npz'
+    infile = np.load(f_TS)
+    ts = infile['ts']
+    nodes = infile['nodes']
+    xyz = infile['xyz']
+
+
+    ###### Calculating the correlation matrix
+    R = np.corrcoef(ts, rowvar=False)
+    
+    # making the diagonal elements to zero
+    for iRow in range(R.shape[0]):
+        R[iRow,iRow] = 0
+        
+
+    ###### Thresholding
+    # hard thresholding -- with user-defined target degree
+    targetDeg = 10
+    G = net_builder_HardTh(R, nodes, targetDeg)
+    G_degree.append(G)
+    # rank thresholding -- with user-defined d
+    target_d = 7
+    H = net_builder_RankTh(R, nodes, target_d)
+    G_rank.append(H)
+
+
+
+
+###### visualizing the networks
+# Loop over K for visualization
+for i,targetK in enumerate(subK):
+
+    # dictionary of xy-coordinates
+    pos = {}
+    for iROI in range(len(nodes)):
+        pos[nodes[iROI]] = xyz[i,:2]
+
+    # first, hard-thresholding network
+    plt.figure(figsize=[12,4])
+    plt.subplot(1,5,i+1)
+    nx.draw_networkx_nodes(G_degree[i], pos, node_color='salmon',
+                           node_size=100)
+    nx.draw_networkx_edges(G_degree[i], pos,
+                           edge_color='lightblue')
+    nx.draw_networkx_labels(G_degree, pos, font_size=7, font_color='black')
+    plt.title('Hard thresholding, avg deg=' + str(targetDeg))
+    plt.axis('off')
+
+plt.show()
+
+
+
+
