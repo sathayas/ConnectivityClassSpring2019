@@ -16,6 +16,7 @@ subK = [50, 100, 200, 500, 950]   # Ks for example atlases
 indK = [list(K).index(k) for k in subK]  # indices corresponding to subK
 
 G_list = []
+N_list = []
 C_list = []
 L_list = []
 for i,targetK in enumerate(subK):
@@ -24,6 +25,9 @@ for i,targetK in enumerate(subK):
     fNet += '_deg' + str(targetDeg) + '.adjlist'
     G = nx.read_adjlist(fNet, nodetype=int)
     G_list.append(G)
+
+    ###### number of nodes
+    N_list.append(len(G.nodes()))
 
     ##### clistering coefficient
     C_list.append(nx.average_clustering(G))
@@ -35,16 +39,23 @@ for i,targetK in enumerate(subK):
 
 
 ###### Plotting C and L
-plt.figure(figsize=[6,4])
+plt.figure(figsize=[9,4])
 
-plt.subplot(121)
+plt.subplot(131)
+plt.plot(subK,N_list,'b.-')
+plt.xscale('log')
+plt.xlabel('Atlas K')
+plt.ylabel('Number of nodes')
+plt.title('Number of nodes vs K')
+
+plt.subplot(132)
 plt.plot(subK,C_list,'b.-')
 plt.xscale('log')
 plt.xlabel('Atlas K')
 plt.ylabel('Clustering coefficient')
 plt.title('Clusetering coefficient vs K')
 
-plt.subplot(122)
+plt.subplot(133)
 plt.plot(subK,L_list,'b.-')
 plt.xscale('log')
 plt.xlabel('Atlas K')
