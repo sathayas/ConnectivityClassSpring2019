@@ -229,7 +229,7 @@ for i,targetK in enumerate(subK):
 
 ###### visualizing the networks
 # Loop over K for visualization
-plt.figure(figsize=[15,4])
+plt.figure(figsize=[9,7.5])
 for i,targetK in enumerate(subK):
 
     # dictionary of xy-coordinates
@@ -238,13 +238,14 @@ for i,targetK in enumerate(subK):
         pos[nodes_degree[i][iROI]] = xyz_degree[i][iROI,:2]
 
     # first, hard-thresholding network
-    plt.subplot(1,5,i+1)
+    plt.subplot(2,3,i+1)
     nx.draw_networkx_nodes(G_degree[i], pos, node_color='salmon',
                            node_size=30)
     nx.draw_networkx_edges(G_degree[i], pos, width=0.5,
                            edge_color='lightblue')
     nx.draw_networkx_labels(G_degree[i], pos, font_size=3, font_color='black')
-    plt.title('Hard thresholding\navg deg=' + str(targetDeg))
+    plt.title('Hard thresholding\navg deg=' + str(targetDeg) +
+              ',  K=' + str(targetK))
     plt.axis('off')
     
 plt.subplots_adjust(left=0.01, right=0.99, wspace=0.06, bottom=0.025)
