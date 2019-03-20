@@ -50,6 +50,7 @@ def partial_corr(C):
     p = C.shape[1]
     P_corr = np.zeros((p, p), dtype=np.float)
     for i in range(p):
+        print('Working on row i: %d' % i)
         P_corr[i, i] = 1
         for j in range(i+1, p):
             idx = np.ones(p, dtype=np.bool)
