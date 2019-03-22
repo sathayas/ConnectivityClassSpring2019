@@ -11,6 +11,41 @@ from partial_corr import partial_corr
 ###### Parameters
 targetDeg = 10  # target average degree
 targetK = 200 # target K for the atlas
+nBins = 11  # number of bins for mutual information
+
+
+
+###### Mutual information function
+def mutual_information(X, bins):
+    A = np.zeros([X.shape[1], X.shape[1]])
+    for i in range(X.shape[1]):
+        print('Working on row i: %d' % i)
+        for j in range(i+1, X.shape[1]):
+            x1 = X[:,i]
+            x2 = X[:,j]
+            A[i,j] = calc_MI(x1,x2,bins)
+            A[j,i] = A[i,j]
+    return A
+
+
+def calc_MI(X,Y,bins):
+
+   c_XY = np.histogram2d(X,Y,bins)[0]
+   c_X = np.histogram(X,bins)[0]
+   c_Y = np.histogram(Y,bins)[0]
+
+   H_X = shan_entropy(c_X)
+   H_Y = shan_entropy(c_Y)
+   H_XY = shan_entropy(c_XY)
+
+   MI = H_X + H_Y - H_XY
+   return MI
+
+def shan_entropy(c):
+    c_normalized = c / float(np.sum(c))
+    c_normalized = c_normalized[np.nonzero(c_normalized)]
+    H = -sum(c_normalized* np.log2(c_normalized))  
+    return H
 
 
 ###### Network construction functions, based on correlation matrix
@@ -94,6 +129,7 @@ R = np.corrcoef(ts, rowvar=False)
 for iRow in range(R.shape[0]):
     R[iRow,iRow] = 0
 
+    
 ###### Calculating the partial correlaiton matrix
 Rpc = partial_corr(ts)
 
@@ -102,46 +138,62 @@ for iRow in range(Rpc.shape[0]):
     Rpc[iRow,iRow] = 0
 
 
-######$$$$$$$ Start from here
-  
+###### Calculating the mutual information matrix
+Rmi = mutual_information(ts, nBins)
+
+
 
 ###### Thresholding
-# hard thresholding -- with user-defined target degree
+# Correlation
 G = net_builder_HardTh(R, nodes, targetDeg)
-# keeping the results for later
-G_degree.append(G)
-nodes_degree.append(nodes)
-xyz_degree.append(xyz)
+# partial correlation
+G_pc = net_builder_HardTh(Rpc, nodes, targetDeg)
+# mutual information
+G_mi = net_builder_HardTh(Rmi, nodes, targetDeg)
+# and all together
+G_all = [G, G_pc, G_mi]
+
 
 ###### writing network to a file
-fNet = 'DataAtlas/Oxford_sub16112_Rt2_K' + str(targetK)
+# Correlation
+fNet = 'DataConnectivity/Oxford_sub16112_Rt2_K' + str(targetK)
 fNet += '_deg' + str(targetDeg) + '.adjlist'
 nx.write_adjlist(G, fNet)
+# partial correlation
+fNet = 'DataConnectivity/Oxford_sub16112_Rt2_K' + str(targetK)
+fNet += '_deg' + str(targetDeg) + '_pc.adjlist'
+nx.write_adjlist(G_pc, fNet)
+# mutual information
+fNet = 'DataConnectivity/Oxford_sub16112_Rt2_K' + str(targetK)
+fNet += '_deg' + str(targetDeg) + '_mi.adjlist'
+nx.write_adjlist(G_mi, fNet)
 
 
 
 ###### visualizing the networks
-# Loop over K for visualization
-plt.figure(figsize=[9,7.5])
-for i,targetK in enumerate(subK):
+# dictionary of xy-coordinates
+pos = {}
+for iROI in range(len(nodes)):
+    pos[nodes[iROI]] = xyz[iROI,:2]
 
-    # dictionary of xy-coordinates
-    pos = {}
-    for iROI in range(len(nodes_degree[i])):
-        pos[nodes_degree[i][iROI]] = xyz_degree[i][iROI,:2]
+
+# Loop over all graphs for visualization
+connMethods = ['Correlation','Partial correlation','Mutual information']
+plt.figure(figsize=[9,4])
+for i in range(len(G_all)):
+
 
     # first, hard-thresholding network
-    plt.subplot(2,3,i+1)
-    nx.draw_networkx_nodes(G_degree[i], pos, node_color='salmon',
+    plt.subplot(1,3,i+1)
+    nx.draw_networkx_nodes(G_all[i], pos, node_color='salmon',
                            node_size=30)
-    nx.draw_networkx_edges(G_degree[i], pos, width=0.5,
+    nx.draw_networkx_edges(G_all[i], pos, width=0.5,
                            edge_color='lightblue')
-    nx.draw_networkx_labels(G_degree[i], pos, font_size=3, font_color='black')
-    plt.title('Hard thresholding\navg deg=' + str(targetDeg) +
-              ',  K=' + str(targetK))
+    nx.draw_networkx_labels(G_all[i], pos, font_size=3, font_color='black')
+    plt.title(connMethods[i])
     plt.axis('off')
     
-plt.subplots_adjust(left=0.01, right=0.99, wspace=0.06, bottom=0.025)
+plt.subplots_adjust(left=0.01, right=0.99, wspace=0.06, bottom=0.025, top=0.90)
 plt.show()
 
 
