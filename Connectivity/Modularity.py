@@ -25,6 +25,7 @@ G_all = [G, G_pc, G_mi]
 # time series data
 f_TS = 'DataConnectivity/Oxford_sub16112_Rt2_K200.npz'
 infile = np.load(f_TS)
+nodes = infile['nodes']
 xyz = infile['xyz']
 
 
