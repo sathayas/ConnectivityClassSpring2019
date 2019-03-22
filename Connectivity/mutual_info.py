@@ -201,7 +201,7 @@ def test_mutual_information():
             )
     # Our estimator should undershoot once again: it will undershoot more
     # for the 2D estimation that for the 1D estimation
-    print  MI_est, MI_th
+    print(MI_est, MI_th)
     np.testing.assert_array_less(MI_est, MI_th)
     np.testing.assert_array_less(MI_th, MI_est  + .3)
 
