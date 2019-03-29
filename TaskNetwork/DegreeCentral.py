@@ -92,13 +92,13 @@ G_reg_foot = nx.read_adjlist(fNet_reg_foot, nodetype=int)
 fNet_reg_lips = 'DataTaskNetwork/fMRI_fingerfootlips_r_bp_reg_Rt2_K950_deg20_lips.adjlist'
 G_reg_lips = nx.read_adjlist(fNet_reg_lips, nodetype=int)
 # task (task NOT regressed out), finger
-fNet_noreg_finger = 'DataTaskNetwork/fMRI_fingerfootlips_r_bp_reg_Rt2_K950_deg20_finger.adjlist'
+fNet_noreg_finger = 'DataTaskNetwork/fMRI_fingerfootlips_nomodel_r_bp_reg_Rt2_K950_deg20_finger.adjlist'
 G_noreg_finger = nx.read_adjlist(fNet_noreg_finger, nodetype=int)
 # task (task NOT regressed out), foot
-fNet_noreg_foot = 'DataTaskNetwork/fMRI_fingerfootlips_r_bp_reg_Rt2_K950_deg20_foot.adjlist'
+fNet_noreg_foot = 'DataTaskNetwork/fMRI_fingerfootlips_nomodel_r_bp_reg_Rt2_K950_deg20_foot.adjlist'
 G_noreg_foot = nx.read_adjlist(fNet_noreg_foot, nodetype=int)
 # task (task NOT regressed out), lips
-fNet_noreg_lips = 'DataTaskNetwork/fMRI_fingerfootlips_r_bp_reg_Rt2_K950_deg20_lips.adjlist'
+fNet_noreg_lips = 'DataTaskNetwork/fMRI_fingerfootlips_nomodel_r_bp_reg_Rt2_K950_deg20_lips.adjlist'
 G_noreg_lips = nx.read_adjlist(fNet_noreg_lips, nodetype=int)
 # consolidating all into a list
 G_list = [G_reg_finger, G_reg_foot, G_reg_lips,
