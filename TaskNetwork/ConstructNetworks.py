@@ -67,7 +67,6 @@ def net_builder_HardTh(R, NodeInd, K, cType=1):
 
 ###### Parameters
 targetDeg = 20  # target average degree
-targetK = 200 # target K for the atlas
 
 
 #
@@ -128,8 +127,57 @@ for iRow in range(R.shape[0]):
 G = net_builder_HardTh(R, nodes, targetDeg)
 
 # writing to a file
-fNet = iTS.split('.')[0] + '_rest_deg' + str(targetDeg) + '.adjlist'
+fNet = iTS.split('.')[0] + '_deg' + str(targetDeg) + '_rest.adjlist'
 fFullPathNet = os.path.join(BaseDir, fNet)
 nx.write_adjlist(G, fFullPathNet)
+
+
+
+
+
+
+#
+# next, we work on the finger foot lips task
+#
+
+###### list of ROI time series data and task time series data
+fTS = ['fMRI_fingerfootlips_r_bp_reg_Rt2_K950.npz',
+       'fMRI_fingerfootlips_nomodel_r_bp_reg_Rt2_K950.npz']
+fTask = 'GLM_model_fingerfootlips.npz'
+listTask = ['finger','foot','lips']
+indTask = [0,2,4]
+BaseDir = 'DataTaskNetwork'
+
+
+###### Loop over the time series data, task network
+fFullPathTask = os.path.join(BaseDir,fTask)
+GLM = np.load(fFullPathTask)['X']
+for iTS in fTS:
+    # loading the time series data
+    fFullPath = os.path.join(BaseDir, iTS)
+    infile = np.load(fFullPath)
+    ts = infile['ts']
+    nodes = infile['nodes']
+
+    for i,iTask in enumerate(listTask):
+        # masking the time series with task time series > 0
+        mts = ts[GLM[:,indTask[i]]>0,:]
+    
+        # calculating correlation
+        R = np.corrcoef(mts, rowvar=False)
+
+        # making the diagonal elements to zero
+        for iRow in range(R.shape[0]):
+            R[iRow,iRow] = 0
+
+        # thresholding
+        G = net_builder_HardTh(R, nodes, targetDeg)
+
+        # writing to a file
+        fNet = iTS.split('.')[0] + '_deg' + str(targetDeg)
+        fNet += '_' + iTask + '.adjlist'
+        fFullPathNet = os.path.join(BaseDir, fNet)
+        nx.write_adjlist(G, fFullPathNet)
+
 
 
