@@ -69,7 +69,7 @@ def roi_coord(dataAtlas, nodeList):
 
 
 ###### Parameters
-targetK = 950 # target K for the atlas
+targetK = 200 # target K for the atlas
 
 
 
@@ -79,8 +79,8 @@ f_atlasRt2 = 'DataTaskNetwork/tcorr05_2level_all_r.nii.gz'
 X_Rt2 = nib.load(f_atlasRt2).get_data()
 
 # K for clustering algorithm
-K = list(range(10,301,10)) + list(range(350,1000,50)) 
-indK = len(K) - 1 # the index for K=950
+K = list(range(10,301,10)) + list(range(350,1000,50))
+indK = K.index(targetK)  # the index for K=200
 
 
 
