@@ -23,7 +23,7 @@ G_task_reg = nx.read_adjlist(fNet_task_reg, nodetype=int)
 fNet_task_noreg = 'DataTaskNetwork/fMRI_covertverb_nomodel_r_bp_reg_Rt2_K200_deg20.adjlist'
 G_task_noreg = nx.read_adjlist(fNet_task_noreg, nodetype=int)
 # rest (absence of task)
-fNet_rest = 'DataTaskNetwork/fMRI_covertverb_nomodel_r_bp_reg_Rt2_K200_deg20_rest.adjlist'
+fNet_rest = 'DataTaskNetwork/fMRI_covertverb_r_bp_reg_Rt2_K200_deg20_rest.adjlist'
 G_rest = nx.read_adjlist(fNet_rest, nodetype=int)
 # consolidating all into a list
 G_list = [G_task_reg, G_task_noreg, G_rest]
