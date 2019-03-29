@@ -98,7 +98,7 @@ for ifMRI in ffMRI:
     X_fMRI = nib.load(fFullPath).get_data()
     # extracing the mean ROI time series
     ts, nodes = extract_roits(X_fMRI, X_Rt2[:,:,:,indK])
-    xyz = roi_coord(X_Rt2[:,:,:,indK], node_Rt2)
+    xyz = roi_coord(X_Rt2[:,:,:,indK], nodes)
     # saving for later use
     fOut = ifMRI.split('.')[0] + 'Rt2_K' + str(K[indK]) + '.npz'
     fFullPathOut = os.path.join(BaseDir, fOut)
