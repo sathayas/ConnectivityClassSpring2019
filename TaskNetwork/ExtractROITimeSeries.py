@@ -100,7 +100,7 @@ for ifMRI in ffMRI:
     ts, nodes = extract_roits(X_fMRI, X_Rt2[:,:,:,indK])
     xyz = roi_coord(X_Rt2[:,:,:,indK], node_Rt2)
     # saving for later use
-    fOut = ifMRI.split('.')[0] + '_K' + str(K[indK]) + '.npz'
+    fOut = ifMRI.split('.')[0] + 'Rt2_K' + str(K[indK]) + '.npz'
     fFullPathOut = os.path.join(BaseDir, fOut)
     np.savez(fFullPathOut, ts = ts, nodes = nodes, xyz = xyz)
     
