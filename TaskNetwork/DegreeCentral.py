@@ -18,13 +18,13 @@ xyz = infile['xyz']
 ###### loading network data
 # task (task regressed out)
 fNet_task_reg = 'DataTaskNetwork/fMRI_covertverb_r_bp_reg_Rt2_K950_deg20.adjlist'
-G_task_reg = nx.read_adjlist(fNet_task_reg)
+G_task_reg = nx.read_adjlist(fNet_task_reg, nodetype=int)
 # task (task NOT regressed out)
 fNet_task_noreg = 'DataTaskNetwork/fMRI_covertverb_nomodel_r_bp_reg_Rt2_K950_deg20.adjlist'
-G_task_noreg = nx.read_adjlist(fNet_task_noreg)
+G_task_noreg = nx.read_adjlist(fNet_task_noreg, nodetype=int)
 # rest (absence of task)
 fNet_rest = 'DataTaskNetwork/fMRI_covertverb_nomodel_r_bp_reg_Rt2_K950_deg20_rest.adjlist'
-G_rest = nx.read_adjlist(fNet_rest)
+G_rest = nx.read_adjlist(fNet_rest, nodetype=int)
 # consolidating all into a list
 G_list = [G_task_reg, G_task_noreg, G_rest]
 listLabel = ['During task (task regressed out)',
