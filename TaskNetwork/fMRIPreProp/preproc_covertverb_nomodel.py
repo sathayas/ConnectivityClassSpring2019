@@ -21,16 +21,16 @@ voxSize = [4, 4, 4]
 
 
 # first, making a copy of the fMRI data
-ffMRI = os.path.join(BaseDir, 'fMRI_CovVerb_nomodel.nii.gz')
+ffMRI = os.path.join(BaseDir, 'fMRI_covertverb_nomodel.nii.gz')
 com_cp = 'cp ' + ffMRI_orig + ' ' + ffMRI
 res = os.system(com_cp)
 
 # directory business
-FeatDir = os.path.join(BaseDir, 'fMRI_CovVerb_nomodel.feat')
+FeatDir = os.path.join(BaseDir, 'PSY381D_fMRI_covertverb_nomodel.feat')
 fGMMask = os.path.join(FeatDir, 'reg/highres2standard_seg_1_d_r.nii.gz')
 
-# running feat without normalization
-tmpDir = MyCodes.run_feat(fStruct_bet, ffMRI, bNorm=False, nVolDel=4)
+# running feat with normalization
+tmpDir = MyCodes.run_feat(fStruct_bet, ffMRI, bNorm=True, nVolDel=4)
 
 # warping (or re-orienting, centering, and reslicing) the functional
 MyCodes.run_warp(FeatDir, imgDim, voxSize)
@@ -51,17 +51,11 @@ MyCodes.extract_global(FeatDir)
 # running regression
 MyCodes.regress_global(FeatDir)
 
-# motion scrubbing
-MyCodes.scrub_motion(FeatDir)
+# motion scrubbing - disabled
+#MyCodes.scrub_motion(FeatDir)
 
     
-# directory business
-CorrDir = os.path.join(FeatDir, 'CorrDir_nomodel')
-if not os.path.exists(CorrDir):
-    os.makedirs(CorrDir)
 
-# calculating the correlation matrix
-MyCodes.run_crosscorr(CorrDir,PosOnly=1)
 
             
 
