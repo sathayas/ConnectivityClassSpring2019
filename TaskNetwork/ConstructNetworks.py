@@ -74,8 +74,8 @@ targetDeg = 20  # target average degree
 #
 
 ###### list of ROI time series data and task time series data
-fTS = ['fMRI_covertverb_r_bp_reg_Rt2_K950.npz',
-       'fMRI_covertverb_nomodel_r_bp_reg_Rt2_K950.npz']
+fTS = ['fMRI_covertverb_r_bp_reg_Rt2_K200.npz',
+       'fMRI_covertverb_nomodel_r_bp_reg_Rt2_K200.npz']
 fTask = 'GLM_model_covertverb.npz'
 BaseDir = 'DataTaskNetwork'
 
@@ -141,8 +141,8 @@ nx.write_adjlist(G, fFullPathNet)
 #
 
 ###### list of ROI time series data and task time series data
-fTS = ['fMRI_fingerfootlips_r_bp_reg_Rt2_K950.npz',
-       'fMRI_fingerfootlips_nomodel_r_bp_reg_Rt2_K950.npz']
+fTS = ['fMRI_fingerfootlips_r_bp_reg_Rt2_K200.npz',
+       'fMRI_fingerfootlips_nomodel_r_bp_reg_Rt2_K200.npz']
 fTask = 'GLM_model_fingerfootlips.npz'
 listTask = ['finger','foot','lips']
 indTask = [0,2,4]
