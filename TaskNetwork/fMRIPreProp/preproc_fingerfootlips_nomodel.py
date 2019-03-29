@@ -13,9 +13,6 @@ BaseDir = '/home/satoru/Projects/ModularMapping/Analysis/Pilot_R21_Oct2017/ds114
 fStruct = os.path.join(BaseDir, 'sub-03_ses-test_T1w.nii.gz')
 fStruct_bet = os.path.join(BaseDir, 'sub-03_ses-test_T1w_brain.nii.gz')
 ffMRI_orig = os.path.join(BaseDir, 'sub-03_ses-test_task-fingerfootlips_bold.nii.gz')
-ListTiming = [os.path.join(BaseDir,'onset-finger-minus10s.txt'),
-              os.path.join(BaseDir,'onset-foot-minus10s.txt'),
-              os.path.join(BaseDir,'onset-lips-minus10s.txt')]
 
 
 # parameters
@@ -24,19 +21,16 @@ voxSize = [4, 4, 4]
 
 
 # first, making a copy of the fMRI data
-ffMRI = os.path.join(BaseDir, 'PSY381D_fMRI_fingerfootlips.nii.gz')
+ffMRI = os.path.join(BaseDir, 'PSY381D_fMRI_fingerfootlips_nomodel.nii.gz')
 com_cp = 'cp ' + ffMRI_orig + ' ' + ffMRI
 res = os.system(com_cp)
 
 # directory business
-FeatDir = os.path.join(BaseDir, 'PSY381D_fMRI_fingerfootlips.feat')
+FeatDir = os.path.join(BaseDir, 'PSY381D_fMRI_fingerfootlips_nomodel.feat')
 fGMMask = os.path.join(FeatDir, 'reg/highres2standard_seg_1_d_r.nii.gz')
 
 # running feat with normalization
 tmpDir = MyCodes.run_feat(fStruct_bet, ffMRI, bNorm=True, nVolDel=4)
-
-# constructing the desing files for a block model
-GLM = MyCodes.run_feat_model(fStruct_bet, ffMRI, ListTiming, nVolDel=4)
 
 # warping (or re-orienting, centering, and reslicing) the functional
 MyCodes.run_warp(FeatDir, imgDim, voxSize)
@@ -55,7 +49,7 @@ MyCodes.generate_mask(FeatDir, fGMMask)
 MyCodes.extract_global(FeatDir)
 
 # running regression
-MyCodes.regress_global(FeatDir, GLM)
+MyCodes.regress_global(FeatDir)
 
 # motion scrubbing - disabled
 #MyCodes.scrub_motion(FeatDir)
