@@ -21,7 +21,7 @@ voxSize = [4, 4, 4]
 
 
 # first, making a copy of the fMRI data
-ffMRI = os.path.join(BaseDir, 'fMRI_covertverb_nomodel.nii.gz')
+ffMRI = os.path.join(BaseDir, 'PSY381D_fMRI_covertverb_nomodel.nii.gz')
 com_cp = 'cp ' + ffMRI_orig + ' ' + ffMRI
 res = os.system(com_cp)
 
