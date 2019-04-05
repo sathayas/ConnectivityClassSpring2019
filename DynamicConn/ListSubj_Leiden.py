@@ -13,7 +13,7 @@ nTimePoints = []
 for iSubj in listSubj:
     subjDir = os.path.join(baseDir,iSubj)
     subjFile = os.path.join(subjDir,fPath)
-    X_fMRI = nib.load(fMRI).get_data()
+    X_fMRI = nib.load(subjFile).get_data()
     nTimePoints.append(X_fMRI.shape[-1])
 
 # printing out the results
