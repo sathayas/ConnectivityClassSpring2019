@@ -4,7 +4,7 @@ from sklearn.covariance import GraphicalLassoCV
 from sklearn.preprocessing import StandardScaler
 
 # loading the data
-infile = np.load('DataDynamicConn/Oxford_sub16112_rt2_K200.npz')
+infile = np.load('DataDynamicConn/Leiden_sub39335_Rt2_K200.npz')
 ts = infile['ts']
 nodes = infile['nodes']
 
