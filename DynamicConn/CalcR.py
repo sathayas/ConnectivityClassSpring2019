@@ -95,6 +95,7 @@ Rmat = np.array(Rmat)
 np.savez('DataDynamicConn/Leiden_sub39335_Rt2_K200_Rmat.npz',
          Rmat = Rmat,
          winSize = winSizeTR,
+         nodes = nodes,
          xyz = xyz)
 
 
