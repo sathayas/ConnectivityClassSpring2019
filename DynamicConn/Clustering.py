@@ -16,9 +16,9 @@ for iTime in range(nTime):
 
 
 ###### Clustering --- Figuring out the  number of clusters
-# determinging the number of clusters (up to 20 clusters)
+# determinging the number of clusters (up to 30 clusters)
 SSE = []
-for iClus in range(1,21):
+for iClus in range(1,31):
     print('Number of clusters: %d' % iClus)
     # K-means clustering
     km = KMeans(n_clusters=iClus)  # K-means with a given number of clusters
