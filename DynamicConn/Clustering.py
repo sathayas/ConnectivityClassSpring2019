@@ -44,6 +44,7 @@ y_cent = km.cluster_centers_  # centroid coordinates
 f = np.load('DataDynamicConn/Leiden_sub39335_Rt2_K200_Efficiency.npz')
 EglobMat = f['EglobMat']
 xyz = f['xyz']
+nodes = f['nodes']
 plt.figure(figsize=[4,7])
 plt.subplot(211)
 plt.plot(y_clus)
@@ -68,6 +69,7 @@ plt.show()
 np.savez('DataDynamicConn/Leiden_sub39335_Rt2_K200_Cluster.npz',
          y_clus = y_clus,
          y_cent = y_cent,
+         nodes = nodes,
          xyz = xyz)
 
 
