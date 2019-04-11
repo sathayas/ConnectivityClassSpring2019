@@ -77,29 +77,19 @@ indK = K.index(targetK) # indices corresponding to targetK
 
 
 
-###### directory conntents, converting to subject list
-LeidenDir = '/home/satoru/Projects/Connectome/Data/1000FCP/Leiden_2200/Processed'
-#listDir = os.listdir(LeidenDir)
-#listFiles = [x for x in listDir if 'sub' in x]
-listSubj = ['sub39335', 'sub40907', 'sub92061']
+###### Input: fMRI time series data
+f_fMRI = 'Oxford_sub16112.nii.gz'
+X_fMRI = nib.load(f_fMRI).get_data()
 
+###### Extracting the time series data
+ts_Rt2, node_Rt2 = extract_roits(X_fMRI, X_Rt2[:,:,:,indK])
+xyz_Rt2 = roi_coord(X_Rt2[:,:,:,indK], node_Rt2)
 
-###### for loop over subjects
-for iSubj in listSubj:
-    #fMRI data file (processed)
-    subjDir = os.path.join(LeidenDir,iSubj)
-    f_fMRI = os.path.join(subjDir,'Processed.feat/reg/func2standard_r_bp_reg_ms.nii.gz')
-    X_fMRI = nib.load(f_fMRI).get_data()
-
-    # extracting the time series
-    ts_Rt2, node_Rt2 = extract_roits(X_fMRI, 
-                                     X_Rt2[:,:,:,indK])
-    xyz_Rt2 = roi_coord(X_Rt2[:,:,:,indK], 
-                        node_Rt2)
-
-    # saving for later use
-    np.savez('../DataDynamicConn/Leiden_' + iSubj + '_Rt2_K' + str(targetK) +'.npz',
-             ts = ts_Rt2,
-             nodes = node_Rt2,
-             xyz = xyz_Rt2)
+###### saving for later use
+fOutBase = f_fMRI.replace('.nii.gz','')
+fOut = fOutBase + '_Rt2_K' + str(targetK) +'.npz'
+np.savez(fOut,
+         ts = ts_Rt2,
+         nodes = node_Rt2,
+         xyz = xyz_Rt2)
 
