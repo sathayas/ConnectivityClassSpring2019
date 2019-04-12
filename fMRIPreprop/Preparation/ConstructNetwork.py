@@ -77,7 +77,7 @@ TS_WMCSF = np.load(fTS_WMCSF)['ts']
 # other info about the data as well
 nodes = np.load(fTS)['nodes']
 xyz = np.load(fTS)['xyz']
-nNodes = len(nodes)
+nNode = len(nodes)
 
 
 ###### Calculating the correlation matrix
