@@ -8,10 +8,8 @@ import os
 import numpy as np
 import nibabel as nib
 
-def regress_global(ffmri, fmask, fMoPar, fPhysPar, colInd):
+def regress_global(ffmri, fmask, fMoPar, fPhysPar, colInd, fout):
 
-    # directory and file names
-    fout = ffmri.replace('.nii.gz','') + '_reg.nii.gz'
     # reading motion parameters
     MoPar = np.genfromtxt(fMoPar,
                           delimiter="  ",
