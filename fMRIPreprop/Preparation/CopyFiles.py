@@ -31,3 +31,13 @@ Site = 'Oxford'
 SiteOut = 'Oxford'
 subjID = 'sub16112'
 copy_files(Site, SiteOut, subjID)
+
+Site = 'NewYork_b'
+SiteOut = 'NewYork'
+subjID = 'sub83453'
+copy_files(Site, SiteOut, subjID)
+
+Site = 'Queensland'
+SiteOut = 'Queensland'
+subjID = 'sub66095'
+copy_files(Site, SiteOut, subjID)
