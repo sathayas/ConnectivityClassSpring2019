@@ -78,8 +78,14 @@ indK = K.index(targetK) # indices corresponding to targetK
 
 
 ###### Input: fMRI time series data
-f_fMRI = 'Oxford_sub16112_WBWMCSF.nii.gz'
+f_fMRI = 'Oxford_sub16112.nii.gz'
 X_fMRI = nib.load(f_fMRI).get_data()
+
+###### Input: mask image
+f_Mask = 'Oxford_sub16112_mask.nii.gz'
+X_Mask = nib.load(f_Mask).get_data()
+for iTime in range(X_fMRI.shape[-1]):
+    X_fMRI[:,:,:,iTime] = X_fMRI[:,:,:,iTime] * X_Mask
 
 ###### Extracting the time series data
 ts_Rt2, node_Rt2 = extract_roits(X_fMRI, X_Rt2[:,:,:,indK])
