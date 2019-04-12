@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
 import community   # Louvain method
-from sklearn.metrics import adjusted_rand_score
 
 # ROI IDs
 # Left precentral gyrus: 50
@@ -60,7 +59,7 @@ for i,iGC in enumerate(GC_list):
     nComm = max([comm for comm in partition_list[i].values()])+1
     node_color_list = get_cmap(nComm+1,'rainbow')
     for iComm in range(nComm):
-        nodeList = [iNode for iNode,Comm in partition_list[iG].items()
+        nodeList = [iNode for iNode,Comm in partition_list[i].items()
                     if Comm==iComm]
         nx.draw_networkx_nodes(iGC, pos, 
                                nodelist=nodeList,
@@ -72,7 +71,62 @@ for i,iGC in enumerate(GC_list):
     plt.axis('off')
 
 plt.subplots_adjust(left=0.01, right=0.99, wspace=0.05,
-                    bottom=0.025, top=0.925)
+                    bottom=0.025, top=0.85)
 plt.show()
 
 
+
+###### Comparing sensory-motor (SM) module (between WBWMCSF vs WMCSF)
+# Module containing left precentral gyrus -- ROI ID = 50
+ROI_SM = 50
+
+# modular partitions
+partition_WBWMCSF = partition_list[1]
+partition_WMCSF = partition_list[2]
+
+# Module ID corresponding to SM module
+ModID_SM_WBWMCSF = partition_WBWMCSF[ROI_SM]
+ModID_SM_WMCSF = partition_WMCSF[ROI_SM]
+
+# Set of nodes belongs to the SM module
+nodeSet_SM_WBWMCSF = set([i for i in partition_WBWMCSF.keys()
+                          if partition_WBWMCSF[i]==ModID_SM_WBWMCSF])
+nodeSet_SM_WMCSF = set([i for i in partition_WMCSF.keys()
+                          if partition_WMCSF[i]==ModID_SM_WMCSF])
+
+# Jaccard index comparing SM modules
+# Jaccard is defined as the intersection over union of two sets
+Intersect = float(len(nodeSet_SM_WBWMCSF.intersection(nodeSet_SM_WMCSF)))
+Union = float(len(nodeSet_SM_WBWMCSF.union(nodeSet_SM_WMCSF)))
+Jaccard = Intersect / Union
+print('Jaccard = %5.3f' % Jaccard)
+
+
+
+
+
+###### drawing the graph (SM module)
+# Loop over states for visualization
+plt.figure(figsize=[9,4])
+for i,iGC in enumerate(GC_list):
+    
+    # finally, graph with communities in different colors (Louvain)
+    plt.subplot(1,3,i+1)
+    nComm = max([comm for comm in partition_list[i].values()])+1
+    node_color_list = get_cmap(nComm+1,'rainbow')
+    for iComm in range(nComm):
+        nodeList = [iNode for iNode,Comm in partition_list[i].items()
+                    if Comm==iComm]
+        if iComm==
+        nx.draw_networkx_nodes(iGC, pos, 
+                               nodelist=nodeList,
+                               node_color = np.array([node_color_list(iComm)]),
+                               node_size=30)
+        nx.draw_networkx_edges(iGC, pos, width=0.5,
+                               edge_color='lightblue')
+    plt.title(netLabel[i])
+    plt.axis('off')
+
+plt.subplots_adjust(left=0.01, right=0.99, wspace=0.05,
+                    bottom=0.025, top=0.85)
+plt.show()
