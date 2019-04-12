@@ -7,7 +7,7 @@ def copy_files(Site, SiteOut, subjID, outDir='.'):
                              os.path.join(Site,'Processed/'+subjID))
 
     # fMRI (up to bp)
-    ffMRI = os.path.join(dirOrigin, 'Processed.feat/reg/func2standard_r_bp.nii.gz')
+    ffMRI = os.path.join(dirOrigin, 'Processed.feat/reg/func2standard_r_bp_reg.nii.gz')
     ffMRIout = os.path.join(outDir, SiteOut+'_'+subjID+'.nii.gz')
     copyfile(ffMRI, ffMRIout)
 
