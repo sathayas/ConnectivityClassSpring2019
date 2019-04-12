@@ -67,9 +67,9 @@ def net_builder_HardTh(R, NodeInd, K, cType=1):
 
 
 ###### Loadin the time series data
-fTS = 'DatafMRIPreprop/Oxford_sub16112_Rt2_K200.npz'
-fTS_WBWMCSF = 'DatafMRIPreprop/Oxford_sub16112_WBWMCSF_Rt2_K200.npz'
-fTS_WMCSF = 'DatafMRIPreprop/Oxford_sub16112_WMCSF_Rt2_K200.npz'
+fTS = 'Oxford_sub16112_Rt2_K200.npz'
+fTS_WBWMCSF = 'Oxford_sub16112_WBWMCSF_Rt2_K200.npz'
+fTS_WMCSF = 'Oxford_sub16112_WMCSF_Rt2_K200.npz'
 TS = np.load(fTS)['ts']
 TS_WBWMCSF = np.load(fTS_WBWMCSF)['ts']
 TS_WMCSF = np.load(fTS_WMCSF)['ts']
