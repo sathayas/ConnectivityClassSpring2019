@@ -20,8 +20,6 @@ def regress_global(ffmri, fmask, fMoPar, fPhysPar, colInd, fout):
     PhysPar = infile['PhysPar'][:,colInd]
     # concatenating parameters and centering
     M = np.hstack((MoPar, PhysPar))
-    if len(X)>0:
-        M = np.hstack((M, X))
     cM = M - np.ones([NScan, 1])*(np.sum(M, axis=0)/NScan)
     # loading the image data
     img_data = nib.load(ffmri)
