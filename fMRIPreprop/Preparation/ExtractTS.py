@@ -78,7 +78,7 @@ indK = K.index(targetK) # indices corresponding to targetK
 
 
 ###### Input: fMRI time series data
-f_fMRI = 'Oxford_sub16112.nii.gz'
+f_fMRI = 'Oxford_sub16112_WBWMCSF.nii.gz'
 X_fMRI = nib.load(f_fMRI).get_data()
 
 ###### Extracting the time series data
