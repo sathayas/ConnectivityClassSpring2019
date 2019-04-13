@@ -112,7 +112,7 @@ for i,iGC in enumerate(GC_list):
 
 plt.suptitle('Sensory-motor module', size=16)
 plt.subplots_adjust(left=0.01, right=0.99, wspace=0.05,
-                    bottom=0.025, top=0.85)
+                    bottom=0.025, top=0.8)
 plt.show()
 
 
@@ -154,5 +154,5 @@ for i,iGC in enumerate(GC_list):
 
 plt.suptitle('Default mode network module', size=16)
 plt.subplots_adjust(left=0.01, right=0.99, wspace=0.05,
-                    bottom=0.025, top=0.85)
+                    bottom=0.025, top=0.8)
 plt.show()
