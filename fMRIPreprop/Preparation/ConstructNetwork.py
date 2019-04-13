@@ -108,3 +108,79 @@ nx.write_adjlist(G, fG)
 nx.write_adjlist(G_WBWMCSF, fG_WBWMCSF)
 nx.write_adjlist(G_WMCSF, fG_WMCSF)
 
+
+
+
+
+
+
+###### Loadin the time series data  (Queensland)
+fTS = 'Queensland_sub66095_Rt2_K200.npz'
+fTS_ms = 'Queensland_sub66095_ms_Rt2_K200.npz'
+TS = np.load(fTS)['ts']
+TS_ms = np.load(fTS_ms)['ts']
+
+# other info about the data as well
+nodes = np.load(fTS)['nodes']
+xyz = np.load(fTS)['xyz']
+nNode = len(nodes)
+
+
+###### Calculating the correlation matrix
+R = np.corrcoef(TS, rowvar=False)
+R_ms = np.corrcoef(TS_ms, rowvar=False)
+
+# zeroing the main diagonal
+R[np.arange(nNode), np.arange(nNode)] = 0
+R_ms[np.arange(nNode), np.arange(nNode)] = 0
+
+
+###### Thresholding for form networks
+G = net_builder_HardTh(R, nodes, targetDeg)
+G_ms = net_builder_HardTh(R_ms, nodes, targetDeg)
+
+
+###### Saving the networks
+fG = fTS.replace('.npz','_deg20.adjlist')
+fG_ms = fTS_ms.replace('.npz','_deg20.adjlist')
+nx.write_adjlist(G, fG)
+nx.write_adjlist(G_ms, fG_ms)
+
+
+
+
+
+
+###### Loadin the time series data  (NewYork)
+fTS = 'NewYork_sub83453_Rt2_K200.npz'
+fTS_ms = 'NewYork_sub83453_ms_Rt2_K200.npz'
+TS = np.load(fTS)['ts']
+TS_ms = np.load(fTS_ms)['ts']
+
+# other info about the data as well
+nodes = np.load(fTS)['nodes']
+xyz = np.load(fTS)['xyz']
+nNode = len(nodes)
+
+
+###### Calculating the correlation matrix
+R = np.corrcoef(TS, rowvar=False)
+R_ms = np.corrcoef(TS_ms, rowvar=False)
+
+# zeroing the main diagonal
+R[np.arange(nNode), np.arange(nNode)] = 0
+R_ms[np.arange(nNode), np.arange(nNode)] = 0
+
+
+###### Thresholding for form networks
+G = net_builder_HardTh(R, nodes, targetDeg)
+G_ms = net_builder_HardTh(R_ms, nodes, targetDeg)
+
+
+###### Saving the networks
+fG = fTS.replace('.npz','_deg20.adjlist')
+fG_ms = fTS_ms.replace('.npz','_deg20.adjlist')
+nx.write_adjlist(G, fG)
+nx.write_adjlist(G_ms, fG_ms)
+
+
