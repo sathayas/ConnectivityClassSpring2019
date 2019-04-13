@@ -5,7 +5,7 @@ import community   # Louvain method
 
 # ROI IDs
 # Left precentral gyrus: 50
-# Left post-cingulate, precuneus: 58
+# Left post-cingulate, precuneus: 174
 
 ##### Custom distinct color function --- to be used later
 def get_cmap(n, name='hsv'):
@@ -118,7 +118,7 @@ plt.show()
 
 ###### drawing the graph (DMN module)
 # Identifying DMN module for each network
-ROI_DMN = 58  # ROI=58 --> Left posterior cingulate / precuneus
+ROI_DMN = 174  # ROI=174 --> Left posterior cingulate / precuneus
 indDMN_list = []
 for iMod in partition_list:
     indDMN_list.append(iMod[ROI_DMN])
