@@ -110,6 +110,7 @@ for i,iGC in enumerate(GC_list):
     plt.title(netLabel[i])
     plt.axis('off')
 
+plt.suptitle('Sensory-motor module', size=16)
 plt.subplots_adjust(left=0.01, right=0.99, wspace=0.05,
                     bottom=0.025, top=0.85)
 plt.show()
@@ -151,6 +152,7 @@ for i,iGC in enumerate(GC_list):
     plt.title(netLabel[i])
     plt.axis('off')
 
+plt.suptitle('Default mode network module', size=16)
 plt.subplots_adjust(left=0.01, right=0.99, wspace=0.05,
                     bottom=0.025, top=0.85)
 plt.show()
