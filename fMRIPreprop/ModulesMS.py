@@ -52,7 +52,7 @@ plt.figure(figsize=[6,4])
 for i,iGC in enumerate(GC_list):
     
     # finally, graph with communities in different colors (Louvain)
-    plt.subplot(1,3,i+1)
+    plt.subplot(1,2,i+1)
     nComm = max([comm for comm in partition_list[i].values()])+1
     node_color_list = get_cmap(nComm+1,'rainbow')
     for iComm in range(nComm):
@@ -82,11 +82,11 @@ for iMod in partition_list:
     indSM_list.append(iMod[ROI_SM])
     
 # Loop over states for visualization
-plt.figure(figsize=[9,4])
+plt.figure(figsize=[6,4])
 for i,iGC in enumerate(GC_list):
     
     # finally, graph with communities in different colors (Louvain)
-    plt.subplot(1,3,i+1)
+    plt.subplot(1,2,i+1)
     nComm = max([comm for comm in partition_list[i].values()])+1
     for iComm in range(nComm):
         nodeList = [iNode for iNode,Comm in partition_list[i].items()
@@ -123,11 +123,11 @@ for iMod in partition_list:
     indDMN_list.append(iMod[ROI_DMN])
     
 # Loop over states for visualization
-plt.figure(figsize=[9,4])
+plt.figure(figsize=[6,4])
 for i,iGC in enumerate(GC_list):
     
     # finally, graph with communities in different colors (Louvain)
-    plt.subplot(1,3,i+1)
+    plt.subplot(1,2,i+1)
     nComm = max([comm for comm in partition_list[i].values()])+1
     for iComm in range(nComm):
         nodeList = [iNode for iNode,Comm in partition_list[i].items()
