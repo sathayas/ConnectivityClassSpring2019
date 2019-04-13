@@ -78,7 +78,7 @@ indK = K.index(targetK) # indices corresponding to targetK
 
 
 ###### Input: fMRI time series data
-f_fMRI = 'Queensland_sub66095.nii.gz'
+f_fMRI = 'NewYork_sub83453_ms.nii.gz'
 X_fMRI = nib.load(f_fMRI).get_data()
 
 ###### Input: mask image
