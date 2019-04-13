@@ -65,8 +65,8 @@ for i,iGC in enumerate(GC_list):
                                nodelist=nodeList,
                                node_color = np.array([node_color_list(iComm)]),
                                node_size=30)
-        nx.draw_networkx_edges(iGC, pos, width=0.5,
-                               edge_color='lightblue')
+    nx.draw_networkx_edges(iGC, pos, width=0.25,
+                           edge_color='lightblue')
     plt.title(netLabel[i])
     plt.axis('off')
 
@@ -105,8 +105,8 @@ for i,iGC in enumerate(GC_list):
                                    node_color = 'skyblue',
                                    node_size=15)
             
-        nx.draw_networkx_edges(iGC, pos, width=0.5,
-                               edge_color='lightblue')
+    nx.draw_networkx_edges(iGC, pos, width=0.25,
+                           edge_color='lightblue')
     plt.title(netLabel[i])
     plt.axis('off')
 
@@ -147,8 +147,8 @@ for i,iGC in enumerate(GC_list):
                                    node_color = 'skyblue',
                                    node_size=15)
             
-        nx.draw_networkx_edges(iGC, pos, width=0.5,
-                               edge_color='lightblue')
+    nx.draw_networkx_edges(iGC, pos, width=0.25,
+                           edge_color='lightblue')
     plt.title(netLabel[i])
     plt.axis('off')
 
