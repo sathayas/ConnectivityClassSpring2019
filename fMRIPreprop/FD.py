@@ -8,8 +8,6 @@ MoPar = np.genfromtxt(fMoPar,
                       delimiter="  ",
                       missing_values=["NA"])
 NScan = MoPar.shape[0]
-fTS = 'DatafMRIPreprop/Queensland_sub66095_Rt2_K200.npz'
-ts = np.load(fTS)['ts']
 
 ##### plotting the motion parameters
 plt.figure(figsize=[5,5])
@@ -33,8 +31,30 @@ plt.subplots_adjust(left=0.15, right=0.95, top=0.95, bottom=0.1,
 plt.show()
 
 
-##### Framewise displacement
+##### plotting changes in motion parameters
 dMoPar = np.diff(MoPar, axis=0)
+plt.figure(figsize=[5,5])
+
+plt.subplot(211)
+for iPar in range(3):
+    plt.plot(dMoPar[:,iPar])
+plt.xlabel('Frame')
+plt.ylabel('Motion (radian)')
+plt.title('Rotation')
+
+plt.subplot(212)
+for iPar in range(3,6):
+    plt.plot(dMoPar[:,iPar])
+plt.xlabel('Frame')
+plt.ylabel('Motion (mm)')
+plt.title('Translation')
+
+plt.subplots_adjust(left=0.15, right=0.95, top=0.95, bottom=0.1,
+                    hspace=0.5)
+plt.show()
+
+
+##### Framewise displacement
 FD = np.sum(abs(dMoPar), axis=1)
 
 
@@ -59,6 +79,10 @@ plt.xlabel('Frame')
 plt.ylabel('FD')
 plt.title('Framewise displacement (FD)')
 
+
+# loading the original time series
+fTS = 'DatafMRIPreprop/Queensland_sub66095_Rt2_K200.npz'
+ts = np.load(fTS)['ts']
 plt.subplot(212)
 plt.imshow(ts.T, cmap=plt.cm.gist_ncar, aspect='auto')
 plt.xlim(0,len(FD))
